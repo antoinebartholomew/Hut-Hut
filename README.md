@@ -19,14 +19,13 @@ Hut Hut is a hotel wish list application utilizing the Foursquare API for people
 
 ## Team Members
   - Aaron Wyand
-    ![alt text](https://github.com/awyand/Hut-Hut/blob/master/images/aaron.png)
+    <img src="https://github.com/awyand/Hut-Hut/blob/master/images/aaron.png" height="200px">
   - Nathan Alston
-    ![alt text](https://github.com/awyand/Hut-Hut/blob/master/images/nathan.png)
+    <img src="https://github.com/awyand/Hut-Hut/blob/master/images/nathan.png" height="200px">
   - Tiara Welch
-    ![alt text](https://github.com/awyand/Hut-Hut/blob/master/images/tiara.png)
+    <img src="https://github.com/awyand/Hut-Hut/blob/master/images/tiara.png" height="200px">
   - Andrew Mugendi
-    ![alt text](https://github.com/awyand/Hut-Hut/blob/master/images/andrew.png)
-    <img src="https://github.com/awyand/Hut-Hut/blob/master/images/andrew.png" height="100px">
+    <img src="https://github.com/awyand/Hut-Hut/blob/master/images/andrew.png" height="200px">
 
 ## Rough Breakdown of Tasks
  - MVP: take user input (city) and return a list of 10 hotels in that city

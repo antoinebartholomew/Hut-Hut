@@ -74,9 +74,7 @@ $(document).ready(function() {
     $.ajax({
       url : queryUrl,
       method : "GET"
-    }).done(createHotelObjects).fail(function(error) {
-      console.log(error.status);
-    });
+    }).done(createHotelObjects).fail(errorHandler);
   });
 
   // Populate Cards
@@ -146,6 +144,23 @@ $(document).ready(function() {
           </div>
         </div>
         `);
+    }
+  }
+
+  function errorHandler(error) {
+    console.log(error.responseJSON.meta.errorType);
+    // Save errorType to a variable
+    var err = error.responseJSON.meta.errorType
+
+    // Conditional error messages
+    if (err === "quota_exceeded") {
+      alert("We're sorry, it appears this application's daily request limit has been reached. Please try again tomorrow.");
+    } else if (err === "rate_limit_exceeded") {
+      alert("We're sorry, it appears this application's hourly rate limit has been reached. Please try again in an later.");
+    } else if (err === "endpoint_error") {
+      alert("We're sorry, it appears there is a problem with the application you are using. Please contact the application's creators.");
+    } else {
+      alert(`We're sorry, we received the error "${err}" from Foursquare. Please ensure your search term is a valid place and contact this application's creators if the problem persists.`);
     }
   }
 });

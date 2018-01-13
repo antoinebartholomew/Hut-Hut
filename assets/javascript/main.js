@@ -34,18 +34,66 @@ $(document).ready(function() {
     }
 
     // Construct query URL
-    var queryUrl = `${userUrlObj.urlBase}&v=20180113&categoryId=${userUrlObj.hotelCategory}&near=${userUrlObj.userSearch}&limit=${userUrlObj.limit}&client_id=${userUrlObj.clientId}&client_secret=${userUrlObj.clientSecret}`;
-
-    console.log(queryUrl);
+    var queryUrl = `${userUrlObj.urlBase}&v=20180113&categoryId=${userUrlObj.hotelCategory}&near=${userUrlObj.userSearch}&limit=${userUrlObj.limit}&venuePhotos=1&client_id=${userUrlObj.clientId}&client_secret=${userUrlObj.clientSecret}`;
 
 
     // AJAX Request
     $.ajax({
       url : queryUrl,
       method : "GET"
-    }).done(function(response) {
-      console.log(response);
-    });
+    }).done(createHotelObjects);
   });
+
+  // Populate Cards
+  function createHotelObjects(data) {
+    // Save response array to local array
+    var hotelArray = data.response.groups[0].items;
+    console.log("Hotel Array");
+    console.log(hotelArray);
+    console.log("----------------");
+
+    // Loop through each item in the hotel array
+    for (i = 0; i < hotelArray.length; i++) {
+
+      // Grab Foursquare hotel object
+      var hotel = hotelArray[i].venue;
+
+      // Build image URL first
+      var imgPrefix = hotel.photos.groups[0].items[0].prefix;
+      var imgSize = "200x200";
+      var imgSuffix = hotel.photos.groups[0].items[0].suffix;
+      var imgURL = imgPrefix + imgSize + imgSuffix;
+
+      // Create hotel object with parameters we're interested in
+      var hotelObject = {
+        id : hotel.id,
+        name : hotel.name,
+        phone : hotel.contact.phone,
+        twitter : hotel.contact.twitter,
+        address : hotel.location.address,
+        city : hotel.location.city,
+        state : hotel.location.state,
+        zip : hotel.location.postalCode,
+        lat : hotel.location.lat,
+        long : hotel.location.lng,
+        rating : hotel.rating,
+        website : hotel.url,
+        image : imgURL
+      }
+
+      // Populate card to results div
+      $(".results").append(`
+        <div class="card" style="width: 200px;">
+          <img class="card-img-top" src="${hotelObject.image}">
+          <div class="card-body">
+            <h5 class="card-title">${hotelObject.name}</h5>
+            <p class="card-text">Address: ${hotelObject.address}, ${hotelObject.city}, ${hotelObject.state}, ${hotelObject.zip}</p>
+            <p class="card-text">Rating: ${hotelObject.rating}</p>
+            <p class="card-text">Website: ${hotelObject.website}</p>
+          </div>
+        </div>
+        `);
+    }
+  }
 
 });

@@ -20,6 +20,44 @@ $(document).ready(function() {
     // Prevent Default
     event.preventDefault();
 
+    // Create category array and category string
+    var categoryArray = [];
+    var categoryString = "";
+
+    // Add to category array based on checkboxes clicked
+    if ($("#cat-btn-bnb").hasClass("active")) {
+      categoryArray.push("4bf58dd8d48988d1f8931735");
+    }
+    if ($("#cat-btn-boarding").hasClass("active")) {
+      categoryArray.push("4f4530a74b9074f6e4fb0100");
+    }
+    if ($("#cat-btn-hostel").hasClass("active")) {
+      categoryArray.push("4bf58dd8d48988d1ee931735");
+    }
+    if ($("#cat-btn-motel").hasClass("active")) {
+      categoryArray.push("4bf58dd8d48988d1fb931735");
+    }
+    if ($("#cat-btn-resort").hasClass("active")) {
+      categoryArray.push("4bf58dd8d48988d12f951735");
+    }
+    if ($("#cat-btn-vacation").hasClass("active")) {
+      categoryArray.push("56aa371be4b08b9a8d5734e1");
+    }
+
+    console.log(categoryArray);
+
+    // If length of categoryArray is 0 (i.e. no subcategories were clicked)
+    if (categoryArray.length === 0) {
+      // Set categoryString to hotel super category
+      categoryString = "4bf58dd8d48988d1fa931735"
+    } else {
+      // Otherwise join array to string using commas
+      categoryString = categoryArray.join(",");
+    }
+
+    console.log(categoryString);
+
+
     // Construct search object
     var userUrlObj = {
       clientId : "GCAZLY2LL451QYZAJHC10LXCRPDRNDGOVDXLOJAB51HYDBGT",
@@ -28,14 +66,13 @@ $(document).ready(function() {
       // near
       userSearch : $("#hut-input").val().trim(),
       // categoryId
-      hotelCategory : "4bf58dd8d48988d1fa931735",
+      hotelCategory : categoryString,
       // limit
       limit : "10"
     }
 
     // Construct query URL
     var queryUrl = `${userUrlObj.urlBase}&v=20180113&categoryId=${userUrlObj.hotelCategory}&near=${userUrlObj.userSearch}&limit=${userUrlObj.limit}&venuePhotos=1&client_id=${userUrlObj.clientId}&client_secret=${userUrlObj.clientSecret}`;
-
 
     // AJAX Request
     $.ajax({
@@ -48,9 +85,6 @@ $(document).ready(function() {
   function createHotelObjects(data) {
     // Save response array to local array
     var hotelArray = data.response.groups[0].items;
-    console.log("Hotel Array");
-    console.log(hotelArray);
-    console.log("----------------");
 
     // Loop through each item in the hotel array
     for (i = 0; i < hotelArray.length; i++) {
@@ -58,11 +92,20 @@ $(document).ready(function() {
       // Grab Foursquare hotel object
       var hotel = hotelArray[i].venue;
 
-      // Build image URL first
-      var imgPrefix = hotel.photos.groups[0].items[0].prefix;
-      var imgSize = "200x200";
-      var imgSuffix = hotel.photos.groups[0].items[0].suffix;
-      var imgURL = imgPrefix + imgSize + imgSuffix;
+      // Create imgUrl variable
+      var imgURL = "";
+      // If no photo exists
+      if (hotel.photos.count === 0) {
+        // Set imgURL to local no-image-available file
+        imgURL = "assets/images/no-image-available.png";
+      } else {
+        // Otherwise construction the Foursquare image URL
+        var imgPrefix = hotel.photos.groups[0].items[0].prefix;
+        var imgSize = "200x200";
+        var imgSuffix = hotel.photos.groups[0].items[0].suffix;
+        imgURL = imgPrefix + imgSize + imgSuffix;
+      }
+
 
       // Create hotel object with parameters we're interested in
       var hotelObject = {
@@ -95,5 +138,4 @@ $(document).ready(function() {
         `);
     }
   }
-
 });

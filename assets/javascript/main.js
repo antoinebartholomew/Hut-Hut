@@ -137,7 +137,7 @@ $(document).ready(function() {
           <div class="card-body">
             <h5 class="card-title">${hotelObject.name}</h5>
             <p class="card-text">Address: ${hotelObject.address}, ${hotelObject.city}, ${hotelObject.state}, ${hotelObject.zip}</p>
-            <p class="card-text">Rating: ${hotelObject.rating}</p>
+            <p class="card-text">Rating: <i class="fas fa-star"></i>&nbsp;${hotelObject.rating}</p>
             <p class="card-text">Website: <a href="${hotelObject.website}" class="hotel-link" target="_blank">${hotelObject.website}</a></p>
             <p class="card-text">Twitter: <a href="https://twitter.com/${hotelObject.twitter}" class="hotel-link" target="_blank">${hotelObject.twitter}</a></p>
           </div>

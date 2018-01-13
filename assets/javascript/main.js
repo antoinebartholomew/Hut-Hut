@@ -44,8 +44,6 @@ $(document).ready(function() {
       categoryArray.push("56aa371be4b08b9a8d5734e1");
     }
 
-    console.log(categoryArray);
-
     // If length of categoryArray is 0 (i.e. no subcategories were clicked)
     if (categoryArray.length === 0) {
       // Set categoryString to hotel super category
@@ -54,8 +52,6 @@ $(document).ready(function() {
       // Otherwise join array to string using commas
       categoryString = categoryArray.join(",");
     }
-
-    console.log(categoryString);
 
 
     // Construct search object
@@ -83,6 +79,8 @@ $(document).ready(function() {
 
   // Populate Cards
   function createHotelObjects(data) {
+    // Clear previous results
+    $(".results").empty();
     // Save response array to local array
     var hotelArray = data.response.groups[0].items;
 
@@ -105,7 +103,6 @@ $(document).ready(function() {
         var imgSuffix = hotel.photos.groups[0].items[0].suffix;
         imgURL = imgPrefix + imgSize + imgSuffix;
       }
-
 
       // Create hotel object with parameters we're interested in
       var hotelObject = {
@@ -133,6 +130,7 @@ $(document).ready(function() {
             <p class="card-text">Address: ${hotelObject.address}, ${hotelObject.city}, ${hotelObject.state}, ${hotelObject.zip}</p>
             <p class="card-text">Rating: ${hotelObject.rating}</p>
             <p class="card-text">Website: ${hotelObject.website}</p>
+            <p class="card-text">Twitter: ${hotelObject.twitter}</p>
           </div>
         </div>
         `);

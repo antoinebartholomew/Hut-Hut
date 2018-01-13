@@ -26,7 +26,7 @@ $(document).ready(function() {
       clientSecret : "XXS1NU0C10PGX0XGTGQZ44PBIFSARMO0MOSXATTEGBRJX1GC",
       urlBase : "https://api.foursquare.com/v2/venues/explore?",
       // near
-      userSearch : $("#user-search").val().trim(),
+      userSearch : $("#hut-input").val().trim(),
       // categoryId
       hotelCategory : "4bf58dd8d48988d1fa931735",
       // limit

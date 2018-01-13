@@ -74,11 +74,14 @@ $(document).ready(function() {
     $.ajax({
       url : queryUrl,
       method : "GET"
-    }).done(createHotelObjects);
+    }).done(createHotelObjects).fail(function(error) {
+      console.log(error.status);
+    });
   });
 
   // Populate Cards
   function createHotelObjects(data) {
+
     // Clear previous results
     $(".results").empty();
     // Save response array to local array

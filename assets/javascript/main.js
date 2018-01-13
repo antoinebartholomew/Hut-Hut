@@ -121,16 +121,25 @@ $(document).ready(function() {
         image : imgURL
       }
 
+      // Check each key in hotelObject
+      $.each(hotelObject, function(index, value) {
+        // If value is undefined
+        if (value === undefined) {
+          // Change value to "Not Available"
+          hotelObject[index] = "Not Available";
+          }
+      });
+
       // Populate card to results div
       $(".results").append(`
-        <div class="card" style="width: 200px;">
+        <div class="card" style="width: 200px; display: inline-block">
           <img class="card-img-top" src="${hotelObject.image}">
           <div class="card-body">
             <h5 class="card-title">${hotelObject.name}</h5>
             <p class="card-text">Address: ${hotelObject.address}, ${hotelObject.city}, ${hotelObject.state}, ${hotelObject.zip}</p>
             <p class="card-text">Rating: ${hotelObject.rating}</p>
-            <p class="card-text">Website: ${hotelObject.website}</p>
-            <p class="card-text">Twitter: ${hotelObject.twitter}</p>
+            <p class="card-text">Website: <a href="${hotelObject.website}" class="hotel-link" target="_blank">${hotelObject.website}</a></p>
+            <p class="card-text">Twitter: <a href="https://twitter.com/${hotelObject.twitter}" class="hotel-link" target="_blank">${hotelObject.twitter}</a></p>
           </div>
         </div>
         `);

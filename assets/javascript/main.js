@@ -14,6 +14,20 @@ Vacation Rental: 56aa371be4b08b9a8d5734e1
 
 $(document).ready(function() {
 
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBuQAxSRUyrkX7Sj6bIvj86bkXszSrVYbg",
+    authDomain: "hut-hut-104a9.firebaseapp.com",
+    databaseURL: "https://hut-hut-104a9.firebaseio.com",
+    projectId: "hut-hut-104a9",
+    storageBucket: "hut-hut-104a9.appspot.com",
+    messagingSenderId: "293814567034"
+  };
+
+  firebase.initializeApp(config);
+
+  var db = firebase.database();
+
   // User search button click
   $(document).on("click", "#hut-submit", function() {
 
@@ -128,7 +142,7 @@ $(document).ready(function() {
         if (value === undefined) {
           // Change value to "Not Available"
           hotelObject[index] = "Not Available";
-          }
+        }
       });
 
       // Populate card to results div

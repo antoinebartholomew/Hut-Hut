@@ -14,6 +14,10 @@ Vacation Rental: 56aa371be4b08b9a8d5734e1
 
 $(document).ready(function() {
 
+  /////////////////////////////////////
+  ////// DATABASE INITIALIZATION //////
+  /////////////////////////////////////
+
   // Initialize Firebase
   var config = {
     apiKey: "AIzaSyBuQAxSRUyrkX7Sj6bIvj86bkXszSrVYbg",
@@ -27,6 +31,19 @@ $(document).ready(function() {
   firebase.initializeApp(config);
 
   var db = firebase.database();
+
+
+  //////////////////////////////
+  ////// GLOBAL VARIABLES //////
+  //////////////////////////////
+
+  // Initialize an array for current hotels on page (used for pushing hotel objects to Firebase)
+  var currentHotels = [];
+
+
+  ////////////////////////////
+  ////// EVENT HANDLERS //////
+  ////////////////////////////
 
   // User search button click
   $(document).on("click", "#hut-submit", function() {
@@ -88,14 +105,51 @@ $(document).ready(function() {
     $.ajax({
       url : queryUrl,
       method : "GET"
-    }).done(createHotelObjects).fail(errorHandler);
+    })
+    // When done, call createHotelObjects function
+    .done(createHotelObjects)
+    // If request failed, call errorHandler function
+    .fail(errorHandler);
   });
+
+  // Favorite / Trash Button Click Handler
+  $(document).on("click", ".btn-card", function() {
+    // Save user name to a variable
+    var userName = $("#user-name").val().trim();
+    // Save user place search to a variable
+    var userPlace = $("#hut-input").val().trim();
+    // Save the data-index value of the clicked button to a variable
+    var clickedIndex = $(this).attr("data-index");
+    // Save the corresponding object from the currentHotels array to a variable
+    var clickedHotelObject = currentHotels[clickedIndex];
+    // Save Foursquare ID for Firebase naming purposes
+    var clickedHotelId = clickedHotelObject.id;
+
+    // If the clicked button is favorite
+    if ($(this).hasClass("btn-favorite")) {
+      db.ref("Users/" + userName + "/Favorites/" + userPlace).child(clickedHotelId).set(clickedHotelObject);
+    }
+    // If the clicked button is trash
+    if ($(this).hasClass("btn-trash")) {
+      // Add ID to trash list
+      db.ref("Users/" + userName + "/Trash").child(clickedHotelId).set(clickedHotelId);
+    }
+
+  });
+
+  ///////////////////////
+  ////// FUNCTIONS //////
+  ///////////////////////
 
   // Populate Cards
   function createHotelObjects(data) {
 
     // Clear previous results
     $(".results").empty();
+
+    // Clear currentHotels array
+    currentHotels = [];
+
     // Save response array to local array
     var hotelArray = data.response.groups[0].items;
 
@@ -145,6 +199,9 @@ $(document).ready(function() {
         }
       });
 
+      // Push hotel object to currentHotels array (global)
+      currentHotels.push(hotelObject);
+
       // Populate card to results div
       $(".results").append(`
         <div class="card" style="width: 200px; display: inline-block">
@@ -155,6 +212,8 @@ $(document).ready(function() {
             <p class="card-text">Rating: <i class="fas fa-star"></i>&nbsp;${hotelObject.rating}</p>
             <p class="card-text">Website: <a href="${hotelObject.website}" class="hotel-link" target="_blank">${hotelObject.website}</a></p>
             <p class="card-text">Twitter: <a href="https://twitter.com/${hotelObject.twitter}" class="hotel-link" target="_blank">${hotelObject.twitter}</a></p>
+            <button type="button" class="btn btn-primary btn-card btn-favorite" data-index=${i}><i class="far fa-heart"></i></i></button>
+            <button type="button" class="btn btn-danger btn-card btn-trash" data-index=${i}><i class="fas fa-trash"></i></button>
           </div>
         </div>
         `);

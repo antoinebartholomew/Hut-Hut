@@ -37,6 +37,11 @@ $(document).ready(function() {
   $(document).on("click", ".btn-user-log-in", function() {
     // Save user name to global variable
     currentUser = $("#user-name").val().trim();
+    console.log(`Current User: ${currentUser}`);
+    // Populate Favorites
+    populateFavorites();
+    // Populate Trash
+    populateTrash();
   });
 
   // User search button click
@@ -148,6 +153,8 @@ $(document).ready(function() {
           $(".modal-footer").html("<button type='button' class='btn btn-primary' data-dismiss='modal'>Okay</button>");
           // Show modal
           $(".modal").modal("show");
+          // Get updated snapshot of user's favorites then call populateFavorites
+          db.ref("Users/" + userName + "/Favorites/").once("value").then(populateFavorites);
         }
       });
     }
@@ -171,7 +178,7 @@ $(document).ready(function() {
           $(".modal").modal("show");
         } else {
           // Otherwise add the hotel object to user's trash
-          db.ref("Users/" + userName + "/Trash").child(clickedHotelId).set(clickedHotelId);
+          db.ref("Users/" + userName + "/Trash").child(clickedHotelId).set(clickedHotelObject);
           // Alert user that the hotel was added to their trash
           // Change modal
           $(".modal-title").text("Successfully trashed")
@@ -179,10 +186,16 @@ $(document).ready(function() {
           $(".modal-footer").html("<button type='button' class='btn btn-primary' data-dismiss='modal'>Okay</button>");
           // Show modal
           $(".modal").modal("show");
+          // Get updated snapshot of user's trash then call populateTrash
+          db.ref("Users/" + userName + "/Trash/").once("value").then(populateTrash);
         }
       });
+
+      populateTrash();
     }
   });
+
+  // Child added to currentUser's Trash handler
 
   ///////////////////////
   ////// FUNCTIONS //////
@@ -323,6 +336,73 @@ $(document).ready(function() {
     $(".modal-footer").html("<button type='button' class='btn btn-primary btn-user-log-in' data-dismiss='modal'>Log In</button>");
     // Show modal
     $(".modal").modal("show");
+  }
+
+  function populateFavorites() {
+    // Empty favorites div
+    $(".card-favorites-body").empty();
+    // Grab snapshot of root to work with
+    db.ref().once("value").then(function(snapshot) {
+      // If appropriate object tree exists and user has favorites
+      if (!isDatabaseEmpty(snapshot)
+      && usersExist(snapshot)
+      && userExists(snapshot, currentUser)
+      && userHasFavorites(snapshot, currentUser)) {
+        // Save location of Favorites to a variable
+        var userFavorites = snapshot.child("Users").child(currentUser).child("Favorites");
+        // Loop through each location in Favorites
+        userFavorites.forEach(function(favorite) {
+          // Block to handle if key has spaces
+          var currentKey = "";
+          var currentKeyArray = favorite.key.split(" ");
+          if (currentKeyArray.length > 1) {
+            currentKey = currentKeyArray.join("-");
+          } else {
+            currentKey = favorite.key;
+          }
+          // Create a dropdown item in the Favorites div
+          $(".card-favorites-body").append(`
+            <div class="dropdown favorites-dropdown">
+              <button class="btn btn-secondary dropdown-toggle btn-favorites-dropdown" type="button" id="${favorite}-dropdown-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${favorite.key}</button>
+              <div class="dropdown-menu ${currentKey}-dropdown-menu" aria-labelledby="${favorite}-dropdown-btn">
+              </div>
+            </div>`);
+
+          // Loop through each hotel in the favorite
+          favorite.forEach(function(hotel) {
+            // Populate dropdown with hotel links
+            $(`.${currentKey}-dropdown-menu`).append(`<a class="dropdown-item" href="#">${hotel.val().name}</a>`);
+          });
+        });
+      } else {
+        // Add text to Favorites div that says this user does not have any saved Favorites
+        $(".card-favorites-body").html("<p>This user's Favorites is empty.</p>");
+      }
+    });
+  }
+
+  function populateTrash() {
+    // Empty Trash div
+    $(".card-trash-body").empty();
+    // Grab snapshot of root to work with
+    db.ref().once("value").then(function(snapshot) {
+      // If appropriate object tree exists and user has favorites
+      if (!isDatabaseEmpty(snapshot)
+      && usersExist(snapshot)
+      && userExists(snapshot, currentUser)
+      && userHasTrash(snapshot, currentUser)) {
+        // Save location of Trash to a variable
+        var userTrash = snapshot.child("Users").child(currentUser).child("Trash");
+        // Loop through each hotel in user's Trash
+        userTrash.forEach(function(hotel) {
+          // Append a button to the trash div
+          $(".card-trash-body").append(`<button class="btn btn-secondary">${hotel.val().name}</button>`);
+        });
+      } else {
+        // Add text to Trash div that says this user does not have saved Trash
+        $(".card-trash-body").html("<p>This user's Trash is empty.</p>");
+      }
+    });
   }
 
   ////////////////////////////

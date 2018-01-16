@@ -1,17 +1,3 @@
-/*
-
-CATEGORIES
-
-Hotel: 4bf58dd8d48988d1fa931735
-B&B: 4bf58dd8d48988d1f8931735
-Boarding House: 4f4530a74b9074f6e4fb0100
-Hostel: 4bf58dd8d48988d1ee931735
-Motel: 4bf58dd8d48988d1fb931735
-Resort: 4bf58dd8d48988d12f951735
-Vacation Rental: 56aa371be4b08b9a8d5734e1
-
-*/
-
 $(document).ready(function() {
 
   /////////////////////////////////////
@@ -127,19 +113,72 @@ $(document).ready(function() {
 
     // If the clicked button is favorite
     if ($(this).hasClass("btn-favorite")) {
-      db.ref("Users/" + userName + "/Favorites/" + userPlace).child(clickedHotelId).set(clickedHotelObject);
-    }
-    // If the clicked button is trash
-    if ($(this).hasClass("btn-trash")) {
-      // Add ID to trash list
-      db.ref("Users/" + userName + "/Trash").child(clickedHotelId).set(clickedHotelId);
+      // Grab snapshot of root to work with
+      db.ref().once("value").then(function(snapshot) {
+
+        // If appropriate object tree exists and clicked hotel is already in user's favorites
+        if (!isDatabaseEmpty(snapshot)
+        && usersExist(snapshot)
+        && userExists(snapshot, userName)
+        && userHasFavorites(snapshot,userName)
+        && placeInFavorites(snapshot, userName, userPlace)
+        && hotelInFavorites(snapshot, userName, userPlace, clickedHotelId)) {
+          // Alert user that the hotel is already in favorites
+          console.log(`${clickedHotelObject.name} already exists in ${userName}'s ${userPlace} favorites.`);
+        } else {
+          // Otherwise add the hotel object to user's favorites
+          db.ref("Users/" + userName + "/Favorites/" + userPlace).child(clickedHotelId).set(clickedHotelObject);
+        }
+      });
     }
 
+    // If the clicked button is trash
+    if ($(this).hasClass("btn-trash")) {
+      // Grab snapshot of root to work with
+      db.ref().once("value").then(function(snapshot) {
+        // If appropriate object tree exists and clicked hotel is already in trash
+        if (!isDatabaseEmpty(snapshot)
+        && usersExist(snapshot)
+        && userExists(snapshot, userName)
+        && userHasTrash(snapshot, userName)
+        && hotelInTrash(snapshot, userName, clickedHotelId)) {
+          // Alert user that the hotel is already in their trash
+          console.log(`${clickedHotelObject.name} is already in ${userName}'s trash.`);
+        } else {
+          // Otherwise add the hotel object to user's trash
+          db.ref("Users/" + userName + "/Trash").child(clickedHotelId).set(clickedHotelId);
+        }
+      });
+    }
   });
 
   ///////////////////////
   ////// FUNCTIONS //////
   ///////////////////////
+
+  // Check if database is empty when passed root object
+  var isDatabaseEmpty = (root) => (root.val() === null) ? true : false;
+
+  // Check if "Users" object exists in database when passed root object
+  var usersExist = (root) => root.val().hasOwnProperty("Users");
+
+  // Check if user exists in Users object when passed root object and user name
+  var userExists = (root, user) => root.child("Users").val().hasOwnProperty(user);
+
+  // Check if Favorites object exists within a user object when passed root object and user name
+  var userHasFavorites = (root, user) => root.child("Users").child(user).val().hasOwnProperty("Favorites");
+
+  // Check if Trash object exists within a user object when passed root object and user name
+  var userHasTrash = (root, user) => root.child("Users").child(user).val().hasOwnProperty("Trash");
+
+  // Check if a place exists in user's favorites when passed root object, user name, and place
+  var placeInFavorites = (root, user, place) => root.child("Users").child(user).child("Favorites").val().hasOwnProperty(place);
+
+  // Check if hotel exists in user's favorites within current place when passed root object, user name, place, and hotelId
+  var hotelInFavorites = (root, user, place, hotel) => root.child("Users").child(user).child("Favorites").child(place).val().hasOwnProperty(hotel);
+
+  // Check if hotel exists in user's trash when passed root object, user name, and hotelId
+  var hotelInTrash = (root, user, hotel) => root.child("Users").child(user).child("Trash").val().hasOwnProperty(hotel);
 
   // Populate Cards
   function createHotelObjects(data) {
@@ -204,14 +243,14 @@ $(document).ready(function() {
 
       // Populate card to results div
       $(".results").append(`
-        <div class="card" style="width: 200px; display: inline-block">
-          <img class="card-img-top" src="${hotelObject.image}">
-          <div class="card-body">
-            <h5 class="card-title">${hotelObject.name}</h5>
-            <p class="card-text">Address: ${hotelObject.address}, ${hotelObject.city}, ${hotelObject.state}, ${hotelObject.zip}</p>
-            <p class="card-text">Rating: <i class="fas fa-star"></i>&nbsp;${hotelObject.rating}</p>
-            <p class="card-text">Website: <a href="${hotelObject.website}" class="hotel-link" target="_blank">${hotelObject.website}</a></p>
-            <p class="card-text">Twitter: <a href="https://twitter.com/${hotelObject.twitter}" class="hotel-link" target="_blank">${hotelObject.twitter}</a></p>
+        <div class="card result-card">
+          <img class="card-img-top result-card-image" src="${hotelObject.image}">
+          <div class="card-body result-card-body">
+            <h5 class="card-title result-card-title">${hotelObject.name}</h5>
+            <p class="card-text result-card-address">Address: ${hotelObject.address}, ${hotelObject.city}, ${hotelObject.state}, ${hotelObject.zip}</p>
+            <p class="card-text result-card-rating">Rating: <i class="fas fa-star"></i>&nbsp;${hotelObject.rating}</p>
+            <p class="card-text result-card-web">Website: <a href="${hotelObject.website}" class="result-card-web-link" target="_blank">${hotelObject.website}</a></p>
+            <p class="card-text result-card-web">Twitter: <a href="https://twitter.com/${hotelObject.twitter}" class="result-card-web-link" target="_blank">${hotelObject.twitter}</a></p>
             <button type="button" class="btn btn-primary btn-card btn-favorite" data-index=${i}><i class="far fa-heart"></i></i></button>
             <button type="button" class="btn btn-danger btn-card btn-trash" data-index=${i}><i class="fas fa-trash"></i></button>
           </div>

@@ -124,10 +124,22 @@ $(document).ready(function() {
         && placeInFavorites(snapshot, userName, userPlace)
         && hotelInFavorites(snapshot, userName, userPlace, clickedHotelId)) {
           // Alert user that the hotel is already in favorites
-          console.log(`${clickedHotelObject.name} already exists in ${userName}'s ${userPlace} favorites.`);
+          // Change modal
+          $(".modal-title").text("Already in Favorites")
+          $(".modal-body").html(`<p>${clickedHotelObject.name} is already in ${userName}'s ${userPlace} favorites.</p>`);
+          $(".modal-footer").html("<button type='button' class='btn btn-primary' data-dismiss='modal'>Okay</button>");
+          // Show modal
+          $(".modal").modal("show");
         } else {
           // Otherwise add the hotel object to user's favorites
           db.ref("Users/" + userName + "/Favorites/" + userPlace).child(clickedHotelId).set(clickedHotelObject);
+          // Alert user that the hotel was added to favorites
+          // Change modal
+          $(".modal-title").text("Successfully Added")
+          $(".modal-body").html(`<p>${clickedHotelObject.name} was added to ${userName}'s ${userPlace} favorites.</p>`);
+          $(".modal-footer").html("<button type='button' class='btn btn-primary' data-dismiss='modal'>Okay</button>");
+          // Show modal
+          $(".modal").modal("show");
         }
       });
     }
@@ -143,10 +155,22 @@ $(document).ready(function() {
         && userHasTrash(snapshot, userName)
         && hotelInTrash(snapshot, userName, clickedHotelId)) {
           // Alert user that the hotel is already in their trash
-          console.log(`${clickedHotelObject.name} is already in ${userName}'s trash.`);
+          // Change modal
+          $(".modal-title").text("Already in Trash")
+          $(".modal-body").html(`<p>${clickedHotelObject.name} is already in ${userName}'s trash.</p>`);
+          $(".modal-footer").html("<button type='button' class='btn btn-primary' data-dismiss='modal'>Okay</button>");
+          // Show modal
+          $(".modal").modal("show");
         } else {
           // Otherwise add the hotel object to user's trash
           db.ref("Users/" + userName + "/Trash").child(clickedHotelId).set(clickedHotelId);
+          // Alert user that the hotel was added to their trash
+          // Change modal
+          $(".modal-title").text("Successfully trashed")
+          $(".modal-body").html(`<p>${clickedHotelObject.name} was added to ${userName}'s trash.</p>`);
+          $(".modal-footer").html("<button type='button' class='btn btn-primary' data-dismiss='modal'>Okay</button>");
+          // Show modal
+          $(".modal").modal("show");
         }
       });
     }

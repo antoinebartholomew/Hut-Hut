@@ -25,11 +25,19 @@ $(document).ready(function() {
 
   // Initialize an array for current hotels on page (used for pushing hotel objects to Firebase)
   var currentHotels = [];
+  // Initialize currentUser variable to be used during user's session
+  var currentUser = "";
 
 
   ////////////////////////////
   ////// EVENT HANDLERS //////
   ////////////////////////////
+
+  // User log in button click
+  $(document).on("click", ".btn-user-log-in", function() {
+    // Save user name to global variable
+    currentUser = $("#user-name").val().trim();
+  });
 
   // User search button click
   $(document).on("click", "#hut-submit", function() {
@@ -101,7 +109,7 @@ $(document).ready(function() {
   // Favorite / Trash Button Click Handler
   $(document).on("click", ".btn-card", function() {
     // Save user name to a variable
-    var userName = $("#user-name").val().trim();
+    var userName = currentUser;
     // Save user place search to a variable
     var userPlace = $("#hut-input").val().trim();
     // Save the data-index value of the clicked button to a variable
@@ -299,4 +307,28 @@ $(document).ready(function() {
       alert(`We're sorry, we received the error "${err}" from Foursquare. Please ensure your search term is a valid place and contact this application's creators if the problem persists.`);
     }
   }
+
+  function promptUserLogIn() {
+    // Change modal
+    $(".modal-title").text("Welcome")
+    $(".modal-body").html(`
+      <p>Please enter your user name to log in get started.</p>
+      <form>
+        <div class="form-group">
+          <label for="user-name">User Name</label>
+          <input type="text" class="form-control" id="user-name" placeholder="Enter Your User Name">
+        </div>
+      </form>
+      `);
+    $(".modal-footer").html("<button type='button' class='btn btn-primary btn-user-log-in' data-dismiss='modal'>Log In</button>");
+    // Show modal
+    $(".modal").modal("show");
+  }
+
+  ////////////////////////////
+  ////// FUNCTION CALLS //////
+  ////////////////////////////
+
+  // Call get user function to kick things off
+  promptUserLogIn();
 });

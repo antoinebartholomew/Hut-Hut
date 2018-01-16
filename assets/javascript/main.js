@@ -35,13 +35,21 @@ $(document).ready(function() {
 
   // User log in button click
   $(document).on("click", ".btn-user-log-in", function() {
+    // Prevent default
+    event.preventDefault();
     // Save user name to global variable
     currentUser = $("#user-name").val().trim();
-    console.log(`Current User: ${currentUser}`);
-    // Populate Favorites
-    populateFavorites();
-    // Populate Trash
-    populateTrash();
+    // If blank, add a message to modal that tells the user they have to enter something
+    if (currentUser.length === 0) {
+      $(".modal-form-small-text").text("You must log in to use this app");
+    } else {
+      // Hide modal
+      $(".modal").modal("hide");
+      // Populate Favorites
+      populateFavorites();
+      // Populate Trash
+      populateTrash();
+    }
   });
 
   // User search button click
@@ -327,13 +335,16 @@ $(document).ready(function() {
     $(".modal-body").html(`
       <p>Please enter your user name to log in get started.</p>
       <form>
-        <div class="form-group">
+        <div class="form-group modal-form-group">
           <label for="user-name">User Name</label>
           <input type="text" class="form-control" id="user-name" placeholder="Enter Your User Name">
+          <small class="form-text text-muted modal-form-small-text"></small>
         </div>
       </form>
       `);
-    $(".modal-footer").html("<button type='button' class='btn btn-primary btn-user-log-in' data-dismiss='modal'>Log In</button>");
+    $(".modal-footer").html("<button type='button' class='btn btn-primary btn-user-log-in'>Log In</button>");
+    // Disallow user from clicking outside modal to close
+    $(".modal").modal({backdrop: "static", keyboard: false});
     // Show modal
     $(".modal").modal("show");
   }

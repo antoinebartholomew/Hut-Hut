@@ -90,7 +90,7 @@ body {
 }
 
 .result-card:hover {
-  transform: scale(1.1, 1.1);
+  transform: scale(1.05, 1.05);
   box-shadow: 5px 5px 50px #8D9DB6;
   z-index: 999;
 }

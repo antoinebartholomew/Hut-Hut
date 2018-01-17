@@ -23,10 +23,18 @@ $(document).ready(function() {
   ////// GLOBAL VARIABLES //////
   //////////////////////////////
 
+  // Initialize an array for all hotels from Foursquare response
+  var allHotels = [];
   // Initialize an array for current hotels on page (used for pushing hotel objects to Firebase)
   var currentHotels = [];
+  // Initialize an object to hold all edited hotels in pages (arrays)
+  var hotelPages = {};
   // Initialize currentUser variable to be used during user's session
   var currentUser = "";
+  // Initialize currentPage variable to be used in handling next and previous pagination buttons
+  var currentPage = 0;
+  // Initialize a totalPages to be used in handling next and previous pagination buttons
+  var totalPages = 0;
 
 
   ////////////////////////////
@@ -102,7 +110,7 @@ $(document).ready(function() {
       // categoryId
       hotelCategory : categoryString,
       // limit
-      limit : "10"
+      limit : "50",
     }
 
     // Construct query URL
@@ -203,7 +211,21 @@ $(document).ready(function() {
     }
   });
 
-  // Child added to currentUser's Trash handler
+  // Pagination link clink handler
+  $(document).on("click", ".page-link", function() {
+    // Check if it's the previous button
+    if ($(this).hasClass("page-link-previous")) {
+      var previousPage = currentPage - 1;
+      populateCards(previousPage.toString());
+    // Check if it's the next button
+    } else if ($(this).hasClass("page-link-next")) {
+      var nextPage = currentPage + 1;
+      populateCards(nextPage.toString());
+    } else {
+      var clickedPage = $(this).parent().attr("data-page");
+      populateCards(clickedPage);
+    }
+  });
 
   ///////////////////////
   ////// FUNCTIONS //////
@@ -233,14 +255,11 @@ $(document).ready(function() {
   // Check if hotel exists in user's trash when passed root object, user name, and hotelId
   var hotelInTrash = (root, user, hotel) => root.child("Users").child(user).child("Trash").val().hasOwnProperty(hotel);
 
-  // Populate Cards
+  // Create hotel objects
   function createHotelObjects(data) {
 
-    // Clear previous results
-    $(".results").empty();
-
-    // Clear currentHotels array
-    currentHotels = [];
+    // Clear all hotels array
+    allHotels = [];
 
     // Save response array to local array
     var hotelArray = data.response.groups[0].items;
@@ -251,7 +270,7 @@ $(document).ready(function() {
       // Grab Foursquare hotel object
       var hotel = hotelArray[i].venue;
 
-      // Create imgUrl variable
+      // Create imgURL variable
       var imgURL = "";
       // If no photo exists
       if (hotel.photos.count === 0) {
@@ -291,24 +310,105 @@ $(document).ready(function() {
         }
       });
 
-      // Push hotel object to currentHotels array (global)
-      currentHotels.push(hotelObject);
+      // Push hotel object to allHotels array (global)
+      allHotels.push(hotelObject);
+    }
 
-      // Populate card to results div
+    // Split all hotels array into arrays of 10 (or less for last array) and add to hotelPages object
+    // Empty hotelPages
+    hotelPages = {};
+    var pageCount = 1;
+    for (i = 0; i < allHotels.length; i+= 10) {
+      hotelPages[pageCount] = allHotels.slice(i, i+10);
+      pageCount++;
+    }
+
+    // Clear pagination div
+    $(".search-pagination-section").empty();
+    // Create pagination skeleton
+    $(".search-pagination-section").append(`
+      <nav>
+        <ul class="pagination search-pagination">
+        </ul>
+      </nav>`);
+
+    // Add previous and next buttons
+    $(".search-pagination").append(`
+        <li class="page-item" data-page="0">
+          <a class="page-link page-link-previous" href="#"><span><i class="fas fa-arrow-left"></span></i></a>
+        </li>
+        <li class="page-item">
+          <a class="page-link page-link-next" href="#"><span><i class="fas fa-arrow-right"></i></span></a>
+        </li>`);
+
+    // Create index to keep track of last page (need to put pages in order starting after the previous arrow)
+    var lastPageIndex = 0;
+    // For each key in hotelPages object, add a pagination list item after lastPage
+    $.each(hotelPages, function(index, value) {
+      // Select previous page list item based on index
+      var lastPage = $(`li[data-page=${lastPageIndex.toString()}]`);
+
+      // Place new list item after previous list item
+      $(lastPage).after(`
+        <li class="page-item" data-page=${index}>
+          <a class="page-link" href="#">${index}</a>
+        </li>`);
+
+      // Incremenet lastPageIndex
+      lastPageIndex++;
+    });
+
+    // Reduce 1 from pageCount (because it will have incremented again) and save to totalPages
+    totalPages = pageCount - 1;
+
+    // Call populateCards and pass it "1" for first page
+    populateCards("1");
+  }
+
+  function populateCards(page) {
+    // Clear previous results
+    $(".results").empty();
+
+    // Fill currentHotels with hotelPages array with key that matches page
+    currentHotels = hotelPages[page];
+
+    // Set currentPage to page
+    currentPage = parseInt(page);
+    console.log(`Current page: ${currentPage}`);
+
+    // For each hotel in currentHotels, create a card
+    for (i = 0; i < currentHotels.length; i++) {
+      // Save hotel object to a variable for ease of reference
+      var thisHotel = currentHotels[i];
+
+      // Populate a card to results div
       $(".results").append(`
         <div class="card result-card">
-          <img class="card-img-top result-card-image" src="${hotelObject.image}">
+          <img class="card-img-top result-card-image" src="${thisHotel.image}">
           <div class="card-body result-card-body">
-            <h5 class="card-title result-card-title">${hotelObject.name}</h5>
-            <p class="card-text result-card-address">Address: ${hotelObject.address}, ${hotelObject.city}, ${hotelObject.state}, ${hotelObject.zip}</p>
-            <p class="card-text result-card-rating">Rating: <i class="fas fa-star"></i>&nbsp;${hotelObject.rating}</p>
-            <p class="card-text result-card-web">Website: <a href="${hotelObject.website}" class="result-card-web-link" target="_blank">${hotelObject.website}</a></p>
-            <p class="card-text result-card-web">Twitter: <a href="https://twitter.com/${hotelObject.twitter}" class="result-card-web-link" target="_blank">${hotelObject.twitter}</a></p>
+            <h5 class="card-title result-card-title">${thisHotel.name}</h5>
+            <p class="card-text result-card-address">Address: ${thisHotel.address}, ${thisHotel.city}, ${thisHotel.state}, ${thisHotel.zip}</p>
+            <p class="card-text result-card-rating">Rating: <i class="fas fa-star"></i>&nbsp;${thisHotel.rating}</p>
+            <p class="card-text result-card-web">Website: <a href="${thisHotel.website}" class="result-card-web-link" target="_blank">${thisHotel.website}</a></p>
+            <p class="card-text result-card-web">Twitter: <a href="https://twitter.com/${thisHotel.twitter}" class="result-card-web-link" target="_blank">${thisHotel.twitter}</a></p>
             <button type="button" class="btn btn-primary btn-card btn-favorite" data-index=${i}><i class="far fa-heart"></i></i></button>
             <button type="button" class="btn btn-danger btn-card btn-trash" data-index=${i}><i class="fas fa-trash"></i></button>
           </div>
-        </div>
-        `);
+        </div>`);
+    }
+
+    // If current page is 1, disable previous button
+    if (currentPage === 1) {
+      $(".page-link-previous").parent().addClass("disabled");
+    } else {
+      $(".page-link-previous").parent().removeClass("disabled");
+    }
+
+    // If current page is the last page, disable next button
+    if (currentPage === totalPages) {
+      $(".page-link-next").parent().addClass("disabled");
+    } else {
+      $(".page-link-next").parent().removeClass("disabled");
     }
   }
 

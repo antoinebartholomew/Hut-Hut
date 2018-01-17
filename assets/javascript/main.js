@@ -35,6 +35,8 @@ $(document).ready(function() {
   var currentPage = 0;
   // Initialize a totalPages to be used in handling next and previous pagination buttons
   var totalPages = 0;
+  // Initialize a userFavorites variable to store user's favorites on log in (for styling cards)
+  var userFavoriteIds = [];
 
 
   ////////////////////////////
@@ -175,6 +177,10 @@ $(document).ready(function() {
           $(".modal").modal("show");
           // Get updated snapshot of user's favorites then call populateFavorites
           db.ref("Users/" + userName + "/Favorites/").once("value").then(populateFavorites);
+          // Push to userFavoriteIds
+          userFavoriteIds.push(clickedHotelId);
+          // Populate cards
+          populateCards(currentPage);
         }
       });
     }
@@ -395,24 +401,34 @@ $(document).ready(function() {
     // Clear previous results
     $(".results").empty();
 
+    console.log(userFavoriteIds);
+
     // Fill currentHotels with hotelPages array with key that matches page
     currentHotels = hotelPages[page];
 
     // Set currentPage to page
     currentPage = parseInt(page);
-    console.log(`Current page: ${currentPage}`);
 
     // For each hotel in currentHotels, create a card
     for (i = 0; i < currentHotels.length; i++) {
       // Save hotel object to a variable for ease of reference
       var thisHotel = currentHotels[i];
 
+
+      // If thisHotel's ID is in userFavoriteIds,
+      if (userFavoriteIds.includes(thisHotel.id)) {
+        var favoriteStatus = "visible";
+      } else {
+        var favoriteStatus = "hidden";
+      }
+
       // Populate a card to results div
       $(".results").append(`
         <div class="card result-card">
+          <div class="favorite-flag-${favoriteStatus}"><i class="fas fa-heart"></i></div>
           <img class="card-img-top result-card-image" src="${thisHotel.image}">
           <div class="card-body result-card-body">
-            <h5 class="card-title result-card-title">${thisHotel.name}</h5>
+            <h5 class="card-title result-card-title heavy">${thisHotel.name}</h5>
             <p class="card-text result-card-address">Address: ${thisHotel.address}, ${thisHotel.city}, ${thisHotel.state}, ${thisHotel.zip}</p>
             <p class="card-text result-card-rating">Rating: <i class="fas fa-star"></i>&nbsp;${thisHotel.rating}</p>
             <p class="card-text result-card-web">Website: <a href="${thisHotel.website}" class="result-card-web-link" target="_blank">${thisHotel.website}</a></p>
@@ -421,6 +437,8 @@ $(document).ready(function() {
             <button type="button" class="btn btn-danger btn-card btn-trash" data-index=${i}><i class="fas fa-trash"></i></button>
           </div>
         </div>`);
+
+
     }
 
     // If current page is 1, disable previous button
@@ -487,6 +505,10 @@ $(document).ready(function() {
       && userHasFavorites(snapshot, currentUser)) {
         // Save location of Favorites to a variable
         var userFavorites = snapshot.child("Users").child(currentUser).child("Favorites");
+
+        // Clear userFavoriteIds
+        userFavoriteIds = [];
+
         // Loop through each location in Favorites
         userFavorites.forEach(function(favorite) {
           // Block to handle if key has spaces
@@ -507,6 +529,8 @@ $(document).ready(function() {
 
           // Loop through each hotel in the favorite
           favorite.forEach(function(hotel) {
+            // Add id to global userFavoriteIds (for styling cards)
+            userFavoriteIds.push(hotel.key)
             // Populate dropdown with hotel links
             $(`.${currentKey}-dropdown-menu`).append(`<a class="dropdown-item" href="#">${hotel.val().name}</a>`);
           });

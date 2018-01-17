@@ -75,6 +75,7 @@ body {
   display: inline-block;
   animation: slide-up 0.4s ease;
   transition: all 0.4s;
+  position: relative;
 }
 
 @keyframes slide-up {
@@ -95,8 +96,18 @@ body {
   z-index: 999;
 }
 
-.result-card-title {
-  font-weight: 700;
+.favorite-flag-hidden {
+  visibility: hidden;
+  position: absolute;
+}
+
+.favorite-flag-visible {
+  visibility: visible;
+  position: absolute;
+  top: 0;
+  right: 5px;
+  color: #EF5066;
+  font-size: 30px;
 }
 
 /* FAVORITES / TRASH SIDEBAR */

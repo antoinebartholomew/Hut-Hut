@@ -51,6 +51,10 @@ $(document).ready(function() {
     if (currentUser.length === 0) {
       $(".modal-form-small-text").text("You must log in to use this app");
     } else {
+      // Save user name to user name span in header
+      $(".header-user-name").text(currentUser);
+      // Show user name in header
+      $(".header-main-user").show();
       // Hide modal
       $(".modal").modal("hide");
       // Populate Favorites
@@ -213,6 +217,8 @@ $(document).ready(function() {
 
   // Pagination link clink handler
   $(document).on("click", ".page-link", function() {
+    // Prevent default
+    event.preventDefault();
     // Check if it's the previous button
     if ($(this).hasClass("page-link-previous")) {
       var previousPage = currentPage - 1;
@@ -462,7 +468,7 @@ $(document).ready(function() {
         </div>
       </form>
       `);
-    $(".modal-footer").html("<button type='button' class='btn btn-primary btn-user-log-in'>Log In</button>");
+    $(".modal-footer").html("<button type='button' class='btn yellow-btn btn-user-log-in'>Log In</button>");
     // Disallow user from clicking outside modal to close
     $(".modal").modal({backdrop: "static", keyboard: false});
     // Show modal
@@ -539,6 +545,9 @@ $(document).ready(function() {
   ////////////////////////////
   ////// FUNCTION CALLS //////
   ////////////////////////////
+
+  // Hide user name section in header
+  $(".header-main-user").hide();
 
   // Call get user function to kick things off
   promptUserLogIn();

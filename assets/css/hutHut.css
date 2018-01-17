@@ -1,17 +1,105 @@
-h1 {
-  text-align: center
+/* GENERAL */
+html,
+body {
+  font-family: 'Raleway', sans-serif;
 }
 
-h3 {
-  text-align: center;
+.heavy {
+  font-weight: 700;
+}
+
+/* COLOR COMBOS / SHADOWS */
+.dark-bg {
+  background-color: #667292;
+  color: #FFFFFF;
+}
+
+.light-bg {
+  background-color: #BCCAD6;
+  color: #212121;
+}
+
+.shadow {
+  box-shadow: 2px 2px 10px #8D9DB6;
+}
+
+.yellow-btn {
+  background-color: #FFCC35;
 }
 
 
-#hut-form {
-  text-align: center;
+/* MODAL */
+.modal,
+.modal-dialog,
+.modal-content,
+.modal-header,
+.modal-body,
+.modal-footer {
+  border-radius: 0px;
 }
 
-.list-group-item {
-  font-size: 12px;
-  padding: 5px;
+/* HEADER */
+.header {
+  padding: 20px 0;
+}
+
+.header-main-heading {
+  font-size: 60px;
+}
+
+.header-user-name {
+  color: #FFCC35;
+  font-weight: bold;
+}
+
+/* MAIN CONTAINER */
+.container-main {
+  margin: 40px auto;
+}
+
+/* SEARCH BOX */
+
+.cat-btn {
+  margin-right: 3px;
+}
+
+/* RESULTS */
+.result-card {
+  max-width: 30%;
+  width: 30%;
+  display: inline-block;
+}
+
+.result-card-title {
+  font-weight: 700;
+}
+
+/* FAVORITES / TRASH SIDEBAR */
+.sidebar-card {
+  margin-top: 10px;
+  width: 18rem;
+}
+
+
+/* FOOTER */
+.footer {
+  background-color: #475066;
+  color: #FFFFFF;
+  padding: 30px;
+}
+
+.row-team-members {
+  margin-top: 20px;
+}
+
+.team-member-img {
+  border-radius: 50%;
+  width: 80%;
+  max-width: 80%;
+  border: 2px solid #FFFFFF;
+}
+
+.team-member-name {
+  margin-top: 10px;
+  font-size: 22px;
 }

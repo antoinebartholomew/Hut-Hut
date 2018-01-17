@@ -1,0 +1,162 @@
+================
+GLOBAL VARIABLES
+================
+allHotels
+ - Array that is populated in createHotelObjects() with every hotel object from Foursquare response, slimmed down to only the values we want
+
+currentHotels
+ - Array that holds every hotel object currently displayed on page
+ - Used for grabbing a hotel object by index when it is favorited or trashed
+
+hotelPages
+ - Object of arrays that holds allHotels split into pages of no more than 10
+ - Key = page number
+ - Value = array of hotel objects for that page number
+
+currentUser
+ - String used to store current user
+ - Used for navigating Firebase to that user's places, favorites, and trash
+
+
+currentPage
+ - Number used to store current page number
+ - Used for selecting which array of hotels to show by looking up the corresponding key in hotelPages
+
+totalPages
+ - Number used to store total page number
+ - Used to create pagination and disable previous/next buttons in certain situations
+
+userFavoriteIds
+ - Array of user's favorite hotel IDs
+ - Used to check if a hotel in the results object from Foursquare is in user's favorites
+ - Existence of hotel in userFavoriteIds results in hotel being pushed to page in user favorites
+ - Existence of hotel in userFavorites results in heart being displayed on results card
+
+
+==============
+EVENT HANDLERS
+==============
+.btn-user-log-in on click
+ - Listens for log in button to be clicked on log in modal
+ - Stores value of input field to currentUser
+ - Prevents form from being submitted if string length is 0 and tells user they need to enter a name
+ - Calls populateFavorites() and populateTrash() after user name has been submitted
+
+
+#hut-input on keypress
+ - Listens for the user to type in #hut-input form
+ - If the user types something other than a letter or space, prevent key from being logged
+ - Otherwise, allow default (user input gets displayed in #hut-input)
+
+#user-name on keypress
+ - Same as #hut-input on keypress just for user name in modal
+ - Allows numbers in addition to letters and spaces
+
+#hut-submit on click
+ - Listens for #hut-submit button to be clicked
+ - Checks which subcategory buttons have been clicked in order to form category parameter of Foursquare API call
+ - If no subcategory buttons have been clicked, defaults to overall "Hotel" category
+ - Constructs query URL for Foursquare API call
+ - Makes Foursquare API call with AJAX
+ - When Foursquare response is received:
+    - If success, send response to createHotelObjects()
+    - If fail, send errorType to errorHandler()
+
+.btn-card on click
+ - Listens for either the favorite or trash button to be clicked in a result card
+ - Saves a number of values off based on which card has been clicked including the entire hotel object
+ - If the button was favorite:
+    - Grab a snapshot of Firebase root
+    - Check to see if root has users, user is in users, user has places, current place is in places, then check if clicked hotel is there
+        - If it is, alert user that it's already in their favorites
+        - If not, add to favorites, alert user, and call populateCards() again to display new heart, and add hotel ID to userFavoriteIds
+ - If the button was trash:
+    - Do the same thing as favorites, just with trash variables and database objects
+
+
+.page-link on click
+ - Listens for pagination buttons to be clicked
+ - If it's the previous button, send currentPage - 1 to populateCards()
+ - If it's the next button, send currentPage + 1 to populateCards()
+ - Otherwise, send the page number that was clicked to populateCards()
+
+
+=========
+FUNCTIONS
+=========
+isDatabaseEmpty
+ - Accepts a Firebase root snapshot
+ - Returns true if empty and false if data exists
+
+usersExist
+ - Accepts a Firebase root snapshot
+ - Returns true if users object exists and false if not
+
+userExists
+ - Accepts a Firebase root snapshot and a user name
+ - Returns true if user is in users object and false if not
+
+userHasFavorites
+ - Accepts a Firebase root snapshot and a user name
+ - Returns true if user has favorites object and false if not
+
+userHasTrash
+ - Same as userFavorites but for trash
+
+placeInFavorites
+ - Accepts a Firebase root snapshot, user name, and place
+ - Returns true if place is in user's favorites and false if not
+
+hotelInFavorites
+ - Accepts a Firebase root snapshot, user name, place, and hotel ID
+ - Returns true if hotel is in user's place's favorites and false if not
+
+hotelInTrash
+ - Accepts a Firebase root snapshot, user name, and hotel ID
+ - Returns true if hotel is in user's trash and false if not
+
+createHotelObjects
+ - Accepts a response from the Foursquare API
+ - Clear allHotels object
+ - Grabs array of hotel objects from response object
+ - For each hotel in array:
+    - Construct an image URL
+    - Create a slimmed down version of the hotel object with only values we care about (hotelObject)
+    - Checks if any values in hotelObject are undefined
+        - If so, replace text with "Not Available"
+    - Pushes slimmed down hotelObjects to allHotels array
+ - Splits allHotels into pages of no more than 10, which are pushed to hotelPages object
+ - Creates pagination
+ - Calls populateCards and passes it "1" for first page to start
+
+populateCards
+ - Accepts a number in string format, which represents the page number we want to create
+ - Saves corresponding array of hotels from hotelPages object (finds it by key = page number) into currentHotels
+ - Sets currentPage to page number it was passed
+ - For every hotel in currentHotels array:
+ - Check to see if hotel ID is in userFavoriteIds
+     - If so, set favoriteStatus to visible
+     - If not, set favoriteStatus to hidden
+    - Create a card, including a heart with a class of visible or hidden based on favoriteStatus
+ - Disables previous and next pagination buttons accordingly if currentPage is first page or last page, respectively
+
+errorHandler
+ - Accepts errorType from Foursquare response
+ - Parses response and alerts user of error, asking them to check their input
+
+promptUserLogIn
+ - Changes modal to log in modal and shows it
+
+populateFavorites
+ - Empties favorites div on page
+ - Gets snapshot of Firebase root and checks to see if user have Favorites
+    - If not, populate page with message that says user doesn't have favorites
+    - If they do:
+        - Empties userFavoriteIds
+        - For each place in user's favorites, add a dropdown
+        - For each hotel in each place:
+          - Add a dropdown item to corresponding dropdown
+          - Push the hotelID to userFavoriteIds
+
+populateTrash
+ - Essentially same as populateFavorites but for trash

@@ -135,8 +135,6 @@ $(document).ready(function() {
 
   // Favorite / Trash Button Click Handler
   $(document).on("click", ".btn-card", function() {
-    // Save user name to a variable
-    var userName = currentUser;
     // Save user place search to a variable
     var userPlace = $("#hut-input").val().trim();
     // Save the data-index value of the clicked button to a variable
@@ -154,29 +152,29 @@ $(document).ready(function() {
         // If appropriate object tree exists and clicked hotel is already in user's favorites
         if (!isDatabaseEmpty(snapshot)
         && usersExist(snapshot)
-        && userExists(snapshot, userName)
-        && userHasFavorites(snapshot,userName)
-        && placeInFavorites(snapshot, userName, userPlace)
-        && hotelInFavorites(snapshot, userName, userPlace, clickedHotelId)) {
+        && userExists(snapshot, currentUser)
+        && userHasFavorites(snapshot,currentUser)
+        && placeInFavorites(snapshot, currentUser, userPlace)
+        && hotelInFavorites(snapshot, currentUser, userPlace, clickedHotelId)) {
           // Alert user that the hotel is already in favorites
           // Change modal
           $(".modal-title").text("Already in Favorites")
-          $(".modal-body").html(`<p>${clickedHotelObject.name} is already in ${userName}'s ${userPlace} favorites.</p>`);
+          $(".modal-body").html(`<p>${clickedHotelObject.name} is already in ${currentUser}'s ${userPlace} favorites.</p>`);
           $(".modal-footer").html("<button type='button' class='btn btn-primary' data-dismiss='modal'>Okay</button>");
           // Show modal
           $(".modal").modal("show");
         } else {
           // Otherwise add the hotel object to user's favorites
-          db.ref("Users/" + userName + "/Favorites/" + userPlace).child(clickedHotelId).set(clickedHotelObject);
+          db.ref("Users/" + currentUser + "/Favorites/" + userPlace).child(clickedHotelId).set(clickedHotelObject);
           // Alert user that the hotel was added to favorites
           // Change modal
           $(".modal-title").text("Successfully Added")
-          $(".modal-body").html(`<p>${clickedHotelObject.name} was added to ${userName}'s ${userPlace} favorites.</p>`);
+          $(".modal-body").html(`<p>${clickedHotelObject.name} was added to ${currentUser}'s ${userPlace} favorites.</p>`);
           $(".modal-footer").html("<button type='button' class='btn btn-primary' data-dismiss='modal'>Okay</button>");
           // Show modal
           $(".modal").modal("show");
           // Get updated snapshot of user's favorites then call populateFavorites
-          db.ref("Users/" + userName + "/Favorites/").once("value").then(populateFavorites);
+          db.ref("Users/" + currentUser + "/Favorites/").once("value").then(populateFavorites);
           // Push to userFavoriteIds
           userFavoriteIds.push(clickedHotelId);
           // Populate cards
@@ -192,28 +190,28 @@ $(document).ready(function() {
         // If appropriate object tree exists and clicked hotel is already in trash
         if (!isDatabaseEmpty(snapshot)
         && usersExist(snapshot)
-        && userExists(snapshot, userName)
-        && userHasTrash(snapshot, userName)
-        && hotelInTrash(snapshot, userName, clickedHotelId)) {
+        && userExists(snapshot, currentUser)
+        && userHasTrash(snapshot, currentUser)
+        && hotelInTrash(snapshot, currentUser, clickedHotelId)) {
           // Alert user that the hotel is already in their trash
           // Change modal
           $(".modal-title").text("Already in Trash")
-          $(".modal-body").html(`<p>${clickedHotelObject.name} is already in ${userName}'s trash.</p>`);
+          $(".modal-body").html(`<p>${clickedHotelObject.name} is already in ${currentUser}'s trash.</p>`);
           $(".modal-footer").html("<button type='button' class='btn btn-primary' data-dismiss='modal'>Okay</button>");
           // Show modal
           $(".modal").modal("show");
         } else {
           // Otherwise add the hotel object to user's trash
-          db.ref("Users/" + userName + "/Trash").child(clickedHotelId).set(clickedHotelObject);
+          db.ref("Users/" + currentUser + "/Trash").child(clickedHotelId).set(clickedHotelObject);
           // Alert user that the hotel was added to their trash
           // Change modal
           $(".modal-title").text("Successfully trashed")
-          $(".modal-body").html(`<p>${clickedHotelObject.name} was added to ${userName}'s trash.</p>`);
+          $(".modal-body").html(`<p>${clickedHotelObject.name} was added to ${currentUser}'s trash.</p>`);
           $(".modal-footer").html("<button type='button' class='btn btn-primary' data-dismiss='modal'>Okay</button>");
           // Show modal
           $(".modal").modal("show");
           // Get updated snapshot of user's trash then call populateTrash
-          db.ref("Users/" + userName + "/Trash/").once("value").then(populateTrash);
+          db.ref("Users/" + currentUser + "/Trash/").once("value").then(populateTrash);
         }
       });
 
@@ -437,8 +435,6 @@ $(document).ready(function() {
             <button type="button" class="btn btn-danger btn-card btn-trash" data-index=${i}><i class="fas fa-trash"></i></button>
           </div>
         </div>`);
-
-
     }
 
     // If current page is 1, disable previous button

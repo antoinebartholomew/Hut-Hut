@@ -464,7 +464,7 @@ $(document).ready(function() {
         <div class="form-group modal-form-group">
           <label for="user-name">User Name</label>
           <input type="text" class="form-control" id="user-name" placeholder="Enter Your User Name">
-          <small class="form-text text-muted modal-form-small-text"></small>
+          <small class="form-text modal-form-small-text warning-text"></small>
         </div>
       </form>
       `);

@@ -6,124 +6,147 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Hut-Hut!</title>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Pacifico|Raleway:300,400,700" rel="stylesheet">
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
   <!-- Custom CSS -->
   <link rel="stylesheet" href="assets/css/hutHut.css">
 </head>
 
-<body>
+<body class="light-bg">
 
   <!-- Modal Skeleton -->
   <div class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header dark-bg">
           <h5 class="modal-title"></h5>
         </div>
-        <div class="modal-body">
+        <div class="modal-body light-bg">
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer dark-bg">
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Bootstrap Container -->
-  <div class="container">
-    <h1>Hut-hut</h1>
-    <h3>"... Simply Luxurious</h3>
+  <!-- Header -->
+  <div class="container-fluid header dark-bg shadow">
+    <h1 class="header-main-heading text-center heavy">HUT HUT</h1>
+    <p class="header-main-tagline text-center">Simply Luxurious</p>
+    <p class="header-main-user text-center">Logged in as: <span class="header-user-name"></span></p>
+  </div>
 
-    <!-- Jumbotron with searchbar -->
-    <div class="jumbotron">
+  <!-- Main Body Container -->
+  <div class="container container-main">
 
-      <div class="searchBox">
+    <!-- Search Jumbotron -->
+    <div class="jumbotron jumbotron-search dark-bg shadow">
 
+      <!-- Search Container -->
+      <div class="container container-search">
+
+        <!-- Search Form (Search Bar and Categories)-->
         <form>
+
+          <!-- Search Bar -->
           <div class="form-group">
             <label for="hut-input">Enter a Location to Search</label>
             <input type="text" class="form-control" id="hut-input" placeholder="Washington, DC">
           </div>
 
-          <!-- Hotel Category Check Boxes -->
+          <!-- Hotel Categories -->
           <div class="btn-group btn-group-toggle" data-toggle="buttons">
-
-            <label class="btn btn-secondary" id="cat-btn-bnb" class="cat-btn">
-              <input type="checkbox" autocomplete="off"> Bed and Breakfast
+            <label class="btn btn-light cat-btn light-bg" id="cat-btn-bnb">
+              <input class="cat-input" type="checkbox" autocomplete="off"> Bed and Breakfast
             </label>
-            <label class="btn btn-secondary" id="cat-btn-boarding" class="cat-btn">
-              <input type="checkbox" autocomplete="off"> Boarding House
+            <label class="btn btn-light cat-btn light-bg" id="cat-btn-boarding">
+              <input class="cat-input" type="checkbox" autocomplete="off"> Boarding House
             </label>
-            <label class="btn btn-secondary" id="cat-btn-hostel" class="cat-btn">
-              <input type="checkbox" autocomplete="off"> Hostel
+            <label class="btn btn-light cat-btn light-bg" id="cat-btn-hostel">
+              <input class="cat-input" type="checkbox" autocomplete="off"> Hostel
             </label>
-            <label class="btn btn-secondary" id="cat-btn-motel" class="cat-btn">
-              <input type="checkbox" autocomplete="off"> Motel
+            <label class="btn btn-light cat-btn light-bg" id="cat-btn-motel">
+              <input class="cat-input" type="checkbox" autocomplete="off"> Motel
             </label>
-            <label class="btn btn-secondary" id="cat-btn-resort" class="cat-btn">
-              <input type="checkbox" autocomplete="off"> Resort
+            <label class="btn btn-light cat-btn light-bg" id="cat-btn-resort">
+              <input class="cat-input" type="checkbox" autocomplete="off"> Resort
             </label>
-            <label class="btn btn-secondary" id="cat-btn-vacation" class="cat-btn">
-              <input type="checkbox" autocomplete="off"> Vacation Rental
+            <label class="btn btn-light cat-btn light-bg" id="cat-btn-vacation">
+              <input class="cat-input" type="checkbox" autocomplete="off"> Vacation Rental
             </label>
           </div>
 
-          <!-- This button will trigger our AJAX call -->
-          <input id="hut-submit" type="submit" value="Search">
+          <!-- Submit Button -->
+          <button class="btn yellow-btn" id="hut-submit" type="submit" value="Search">Submit</button>
         </form>
       </div>
+    </div>
+
+    <!-- Content Container (Pagination, Results, and Sidebar) -->
+    <div class="container container-content">
 
       <!-- Pagination -->
       <div class="search-pagination-section"></div>
-    </div>
 
-    <!-- Results continer  -->
+      <!-- Main Row (Results and Sidebar) -->
+      <div class="row">
 
-    <h2>Search Results</h2>
-    <div class="container">
-      <div class="all-content-container">
-        <div class="row">
-          <div class="col-8">
+        <!-- Results Column -->
+        <div class="col-8">
+          <h2>Search Results</h2>
 
-            <!-- Results Cards -->
+          <!-- Results Area -->
+          <div class="results"></div>
 
-            <div class="container">
-              <div class="results"></div>
-            </div>
-          </div>
+        </div>
 
+        <!-- Favorites/Trash Sidebar Column -->
+        <div class="col-4">
           <!-- Favorites -->
-
-          <div class="col-4">
-            <div class="card card-favorites" style="width: 18rem;">
-              <div class="card-header card-favorites-header">
-                <h5>Favorites</h5>
-              </div>
-              <div class="card-body card-favorites-body">
-
-              </div>
+          <div class="card sidebar-card card-favorites shadow" style="width: 18rem;">
+            <div class="card-header dark-bg">
+              <h5>Favorites</h5>
             </div>
-
-
-            <!-- Trash -->
-
-            <div class="card card-trash" style="width: 18rem;">
-              <div class="card-header card-trash-header">
-                <h5>Trash</h5>
-              </div>
-              <div class="card-body card-trash-body">
-              </div>
-            </div>
+            <div class="card-body card-favorites-body"></div>
           </div>
 
 
-
-
+          <!-- Trash -->
+          <div class="card sidebar-card card-trash shadow" style="width: 18rem;">
+            <div class="card-header dark-bg">
+              <h5>Trash</h5>
+            </div>
+            <div class="card-body card-trash-body"></div>
+          </div>
         </div>
       </div>
     </div>
+  </div>
 
-
+  <!-- Footer Container -->
+  <div class="container-fluid footer">
+    <h2 class="text-center heavy">Team Bear</h2>
+    <div class="row text-center row-team-members">
+      <div class="team-member col-md-3">
+          <img class="team-member-img" src="assets/images/aaron-square.jpg" alt="Aaron">
+          <p class="team-member-name">Aaron</p>
+      </div>
+      <div class="team-member col-md-3">
+        <img class="team-member-img" src="assets/images/andrew-square.jpg" alt="Andrew">
+        <p class="team-member-name">Andrew</p>
+      </div>
+      <div class="team-member col-md-3">
+        <img class="team-member-img" src="assets/images/nathan-square.jpg" alt="Nathan">
+        <p class="team-member-name">Nathan</p>
+      </div>
+      <div class="team-member col-md-3">
+        <img class="team-member-img" src="assets/images/tiara-square.png" alt="Tiara">
+        <p class="team-member-name">Tiara</p>
+      </div>
+    </div>
+  </div>
 
 
     <!-- Scripts -->

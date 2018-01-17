@@ -227,6 +227,26 @@ $(document).ready(function() {
     }
   });
 
+  // User search entry onkeyup handler (allow only letters and spaces)
+  $(document).on("keypress", "#hut-input", function(e) {
+    var regex = /[^a-z ]/gi;
+    var key = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+    if (regex.test(key)) {
+      e.preventDefault();
+      return false;
+    }
+  });
+
+  // User name entry onkeyup handler (allow only letters, spaces, and numbers)
+  $(document).on("keypress", "#user-name", function(e) {
+    var regex = /[^a-z0-9 ]/gi;
+    var key = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+    if (regex.test(key)) {
+      e.preventDefault();
+      return false;
+    }
+  });
+
   ///////////////////////
   ////// FUNCTIONS //////
   ///////////////////////
@@ -433,7 +453,7 @@ $(document).ready(function() {
     // Change modal
     $(".modal-title").text("Welcome")
     $(".modal-body").html(`
-      <p>Please enter your user name to log in get started.</p>
+      <p>Please enter your user name to log in to get started.</p>
       <form>
         <div class="form-group modal-form-group">
           <label for="user-name">User Name</label>

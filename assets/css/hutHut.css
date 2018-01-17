@@ -27,6 +27,11 @@ body {
   background-color: #FFCC35;
 }
 
+.warning-text {
+  color: #EF5066;
+  font-weight: bold;
+}
+
 
 /* MODAL */
 .modal,

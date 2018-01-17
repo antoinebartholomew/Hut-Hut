@@ -4,6 +4,9 @@ Team Bear Project 1: Hotel Planning Application (Hut Hut)
 ## Tagline
 Hut Hut: Simply Luxurious
 
+## Link
+https://awyand.github.io/Hut-Hut/
+
 ## Description
 Hut Hut is a hotel wish list application utilizing the Foursquare API for people that aren't ready to book a trip yet, but want to plan for the future.  The user is presented with a simple search bar for their destination and hotel options (hotel, motel, hostel, resort, etc) and is then presented with a collection of results to choose from.  The results include an image, hotel rating, a Google Maps overview (from API), and basic contact information.  The user is able to drag and drop results to either a favorites list or a trash list, which are saved in Firebase for future review.
 

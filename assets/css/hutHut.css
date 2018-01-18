@@ -116,6 +116,11 @@ body {
   width: 18rem;
 }
 
+/* MAP */
+#map {
+  width: 100%;
+  height: 600px;
+}
 
 /* FOOTER */
 .footer {

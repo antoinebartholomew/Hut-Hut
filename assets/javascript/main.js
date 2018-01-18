@@ -429,7 +429,7 @@ $(document).ready(function() {
             <h5 class="card-title result-card-title heavy">${thisHotel.name}</h5>
             <p class="card-text result-card-address">Address: ${thisHotel.address}, ${thisHotel.city}, ${thisHotel.state}, ${thisHotel.zip}</p>
             <p class="card-text result-card-rating">Rating: <i class="fas fa-star"></i>&nbsp;${thisHotel.rating}</p>
-            <p class="card-text result-card-web">Website: <a href="${thisHotel.website}" class="result-card-web-link" target="_blank">${thisHotel.website}</a></p>
+            <p class="card-text result-card-web"><a href="${thisHotel.website}" class="result-card-web-link" target="_blank">Website</a></p>
             <p class="card-text result-card-web">Twitter: <a href="https://twitter.com/${thisHotel.twitter}" class="result-card-web-link" target="_blank">${thisHotel.twitter}</a></p>
             <button type="button" class="btn btn-primary btn-card btn-favorite" data-index=${i}><i class="far fa-heart"></i></i></button>
             <button type="button" class="btn btn-danger btn-card btn-trash" data-index=${i}><i class="fas fa-trash"></i></button>

@@ -87,19 +87,34 @@
     <!-- Content Container (Pagination, Results, and Sidebar) -->
     <div class="container container-content">
 
-      <!-- Pagination -->
-      <div class="search-pagination-section"></div>
+
 
       <!-- Main Row (Results and Sidebar) -->
       <div class="row">
 
         <!-- Results Column -->
         <div class="col-8">
-          <h2>Search Results</h2>
 
-          <!-- Results Area -->
-          <div class="results"></div>
+          <!-- Tab Navigation -->
+          <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+              <a class="nav-item nav-link active" id="nav-tab-results" data-toggle="tab" href="#nav-results" role="tab" aria-controls="nav-results" aria-selected="true">Results</a>
+              <a class="nav-item nav-link" id="nav-tab-map" data-toggle="tab" href="#nav-map" role="tab" aria-controls="nav-map" aria-selected="false">Map</a>
+            </div>
+          </nav>
 
+          <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-results" role="tabpanel" aria-labelledby="nav-tab-results">
+              <!-- Pagination -->
+              <div class="search-pagination-section"></div>
+
+              <!-- Results Area -->
+              <div class="results"></div>
+            </div>
+            <div class="tab-pane fade" id="nav-map" role="tabpanel" aria-labelledby="nav-tab-map">
+              <div id="map"></div>
+            </div>
+          </div>
         </div>
 
         <!-- Favorites/Trash Sidebar Column -->
@@ -130,8 +145,8 @@
     <h2 class="text-center heavy">Team Bear</h2>
     <div class="row text-center row-team-members">
       <div class="team-member col-md-3">
-          <img class="team-member-img" src="assets/images/aaron-square.jpg" alt="Aaron">
-          <p class="team-member-name">Aaron</p>
+        <img class="team-member-img" src="assets/images/aaron-square.jpg" alt="Aaron">
+        <p class="team-member-name">Aaron</p>
       </div>
       <div class="team-member col-md-3">
         <img class="team-member-img" src="assets/images/andrew-square.jpg" alt="Andrew">
@@ -149,13 +164,13 @@
   </div>
 
 
-    <!-- Scripts -->
-    <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script>
-    <script type="text/javascript" src="assets/javascript/main.js"></script>
+  <!-- Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script>
+  <script type="text/javascript" src="assets/javascript/main.js"></script>
 </body>
 
 </html>

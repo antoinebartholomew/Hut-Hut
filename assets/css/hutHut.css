@@ -82,7 +82,7 @@ p {
     transform 0.3s linear,
     box-shadow 0.3s linear,
     z-index 0.3s linear,
-    border-radius 0s linear;
+    border-radius 0.3s linear;
   position: relative;
   border-radius: 0;
 }
@@ -112,7 +112,7 @@ p {
 }
 
 .result-card-body {
-  transition: max-height 0.3s linear, opacity 0.1s linear;
+  transition: max-height 0.1s linear, opacity 0.1s linear;
   height: auto;
   max-height: 600px;
 }

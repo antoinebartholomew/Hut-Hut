@@ -4,6 +4,10 @@ body {
   font-family: 'Raleway', sans-serif;
 }
 
+p{
+  font-size: 10px;
+}
+
 .heavy {
   font-weight: 700;
 }
@@ -76,6 +80,16 @@ body {
   animation: slide-up 0.4s ease;
   transition: all 0.4s;
   position: relative;
+
+}
+
+.result-card-title {
+  max-width: 100%;
+
+}
+
+.result-card-web-link{
+
 }
 
 @keyframes slide-up {

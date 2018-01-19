@@ -381,12 +381,12 @@ $(document).ready(function() {
       allHotels.push(hotelObject);
     }
 
-    // Split all hotels array into arrays of 10 (or less for last array) and add to hotelPages object
+    // Split all hotels array into arrays of 9 (or less for last array) and add to hotelPages object
     // Empty hotelPages
     hotelPages = {};
     var pageCount = 1;
-    for (i = 0; i < allHotels.length; i+= 10) {
-      hotelPages[pageCount] = allHotels.slice(i, i+10);
+    for (i = 0; i < allHotels.length; i+= 9) {
+      hotelPages[pageCount] = allHotels.slice(i, i+9);
       pageCount++;
     }
 

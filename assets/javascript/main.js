@@ -148,6 +148,8 @@ $(document).ready(function() {
           $(".modal-footer").html("<button type='button' class='btn btn-primary' data-dismiss='modal'>Okay</button>");
           // Show modal
           $(".modal").modal("show");
+          // Populate cards
+          populateCards(currentPage);
         } else {
           // Otherwise add the hotel object to user's favorites
           db.ref("Users/" + currentUser + "/Favorites/" + userPlace).child(clickedHotelId).set(clickedHotelObject);
@@ -185,6 +187,8 @@ $(document).ready(function() {
           $(".modal-footer").html("<button type='button' class='btn btn-primary' data-dismiss='modal'>Okay</button>");
           // Show modal
           $(".modal").modal("show");
+          // Populate cards
+          populateCards(currentPage);
         } else {
           // Otherwise add the hotel object to user's trash
           db.ref("Users/" + currentUser + "/Trash").child(clickedHotelId).set(clickedHotelObject);
@@ -197,6 +201,8 @@ $(document).ready(function() {
           $(".modal").modal("show");
           // Get updated snapshot of user's trash then call populateTrash
           db.ref("Users/" + currentUser + "/Trash/").once("value").then(populateTrash);
+          // Populate cards
+          populateCards(currentPage);
         }
       });
 
@@ -245,6 +251,27 @@ $(document).ready(function() {
       logIn();
     }
   });
+
+  // Card dropped in favorites handler
+  $(".droppable-favorites").droppable({
+    drop: function(event, ui) {
+      var draggedCard = $(ui.draggable)[0];
+      var draggedButton = $(draggedCard).find(".btn-favorite")[0];
+      var draggedIndex = $(draggedButton).attr("data-index");
+      $(draggedButton).trigger("click");
+    }
+  });
+
+  // Card dropped in trash handler
+  $(".droppable-trash").droppable({
+    drop: function(event, ui) {
+      var draggedCard = $(ui.draggable)[0];
+      var draggedButton = $(draggedCard).find(".btn-trash")[0];
+      var draggedIndex = $(draggedButton).attr("data-index");
+      $(draggedButton).trigger("click");
+    }
+  });
+
 
   ///////////////////////
   ////// FUNCTIONS //////
@@ -409,8 +436,6 @@ $(document).ready(function() {
     // Clear previous results
     $(".results").empty();
 
-    console.log(userFavoriteIds);
-
     // Fill currentHotels with hotelPages array with key that matches page
     currentHotels = hotelPages[page];
 
@@ -432,7 +457,7 @@ $(document).ready(function() {
 
       // Populate a card to results div
       $(".results").append(`
-        <div class="card result-card">
+        <div class="card result-card draggable">
           <div class="favorite-flag-${favoriteStatus}"><i class="fas fa-heart"></i></div>
           <img class="card-img-top result-card-image" src="${thisHotel.image}">
           <div class="card-body result-card-body">
@@ -446,7 +471,11 @@ $(document).ready(function() {
           </div>
         </div>`);
 
-        createMap();
+        // Make .draggable class draggable with jQuery UI function
+        $(".draggable").draggable({
+          revert: true,
+          revertDuration: 200
+        });
     }
 
     // If current page is 1, disable previous button
@@ -462,10 +491,6 @@ $(document).ready(function() {
     } else {
       $(".page-link-next").parent().removeClass("disabled");
     }
-  }
-
-  function createMap() {
-
   }
 
   function errorHandler(error) {

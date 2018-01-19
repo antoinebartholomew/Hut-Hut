@@ -521,6 +521,9 @@ $(document).ready(function() {
         // Clear userFavoriteIds
         userFavoriteIds = [];
 
+        // Append an accordion div to card-favorites-body
+        $(".card-favorites-body").append("<div id='accordion-favorites'></div>");
+
         // Loop through each location in Favorites
         userFavorites.forEach(function(favorite) {
           // Block to handle if key has spaces
@@ -531,20 +534,29 @@ $(document).ready(function() {
           } else {
             currentKey = favorite.key;
           }
-          // Create a dropdown item in the Favorites div
-          $(".card-favorites-body").append(`
-            <div class="dropdown favorites-dropdown">
-              <button class="btn btn-secondary dropdown-toggle btn-favorites-dropdown" type="button" id="${favorite}-dropdown-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${favorite.key}</button>
-              <div class="dropdown-menu ${currentKey}-dropdown-menu" aria-labelledby="${favorite}-dropdown-btn">
+          // Create a collapsible card for each location and append to accordion
+          $("#accordion-favorites").append(`
+            <div class="card accordion-place-card" id="${currentKey}-accordion-card">
+              <div class="card-header accordion-place-header" id="${currentKey}-accordion-place-header">
+                <h5 class="mb-0 accordion-place-heading">
+                  <button class="btn btn-link collapsed accordion-place-btn" data-toggle="collapse" data-target="#${currentKey}-collapse" aria-expanded="false" aria-controls="${currentKey}-collapse">${favorite.key}</button>
+                </h5>
+              </div>
+              <div id="${currentKey}-collapse" class="collapse" aria-labelledby="${currentKey}-accordion-place-header" data-parent="#accordion-favorites">
+                <div class="card-body accordion-place-collapse-body text-center" id="${currentKey}-collapse-body">
+                </div>
               </div>
             </div>`);
+
 
           // Loop through each hotel in the favorite
           favorite.forEach(function(hotel) {
             // Add id to global userFavoriteIds (for styling cards)
             userFavoriteIds.push(hotel.key)
-            // Populate dropdown with hotel links
-            $(`.${currentKey}-dropdown-menu`).append(`<a class="dropdown-item" href="#">${hotel.val().name}</a>`);
+            // Populate corresponding accordion body with a small image link and name
+            $(`#${currentKey}-collapse-body`).append(`
+              <img class="hotel-favorites-image" src=${hotel.val().image}>
+              <h6>${hotel.val().name}<h6>`);
           });
         });
       } else {

@@ -47,23 +47,8 @@ $(document).ready(function() {
   $(document).on("click", ".btn-user-log-in", function() {
     // Prevent default
     event.preventDefault();
-    // Save user name to global variable
-    currentUser = $("#user-name").val().trim();
-    // If blank, add a message to modal that tells the user they have to enter something
-    if (currentUser.length === 0) {
-      $(".modal-form-small-text").text("You must log in to use this app");
-    } else {
-      // Save user name to user name span in header
-      $(".header-user-name").text(currentUser);
-      // Show user name in header
-      $(".header-main-user").show();
-      // Hide modal
-      $(".modal").modal("hide");
-      // Populate Favorites
-      populateFavorites();
-      // Populate Trash
-      populateTrash();
-    }
+    // Call logIn
+    logIn();
   });
 
   // User search button click
@@ -239,7 +224,7 @@ $(document).ready(function() {
 
   // User search entry onkeyup handler (allow only letters and spaces)
   $(document).on("keypress", "#hut-input", function(e) {
-    var regex = /[^a-z ]/gi;
+    var regex = /[^a-z \n\r]/gi;
     var key = String.fromCharCode(!e.charCode ? e.which : e.charCode);
     if (regex.test(key)) {
       e.preventDefault();
@@ -249,11 +234,15 @@ $(document).ready(function() {
 
   // User name entry onkeyup handler (allow only letters, spaces, and numbers)
   $(document).on("keypress", "#user-name", function(e) {
-    var regex = /[^a-z0-9 ]/gi;
+    var regex = /[^a-z0-9 \n\r]/gi;
     var key = String.fromCharCode(!e.charCode ? e.which : e.charCode);
     if (regex.test(key)) {
       e.preventDefault();
       return false;
+      // If key is enter, call logIn()
+    } else if (e.keyCode === 13) {
+      e.preventDefault();
+      logIn();
     }
   });
 
@@ -284,6 +273,27 @@ $(document).ready(function() {
 
   // Check if hotel exists in user's trash when passed root object, user name, and hotelId
   var hotelInTrash = (root, user, hotel) => root.child("Users").child(user).child("Trash").val().hasOwnProperty(hotel);
+
+  // Log in function
+  function logIn() {
+    // Save user name to global variable
+    currentUser = $("#user-name").val().trim();
+    // If blank, add a message to modal that tells the user they have to enter something
+    if (currentUser.length === 0) {
+      $(".modal-form-small-text").text("You must log in to use this app");
+    } else {
+      // Save user name to user name span in header
+      $(".header-user-name").text(currentUser);
+      // Show user name in header
+      $(".header-main-user").show();
+      // Hide modal
+      $(".modal").modal("hide");
+      // Populate Favorites
+      populateFavorites();
+      // Populate Trash
+      populateTrash();
+    }
+  }
 
   // Create hotel objects
   function createHotelObjects(data) {
@@ -435,6 +445,8 @@ $(document).ready(function() {
             <button type="button" class="btn btn-danger btn-card btn-trash" data-index=${i}><i class="fas fa-trash"></i></button>
           </div>
         </div>`);
+
+        createMap();
     }
 
     // If current page is 1, disable previous button
@@ -450,6 +462,10 @@ $(document).ready(function() {
     } else {
       $(".page-link-next").parent().removeClass("disabled");
     }
+  }
+
+  function createMap() {
+
   }
 
   function errorHandler(error) {

@@ -35,8 +35,11 @@ $(document).ready(function() {
   var currentPage = 0;
   // Initialize a totalPages to be used in handling next and previous pagination buttons
   var totalPages = 0;
-  // Initialize a userFavorites variable to store user's favorites on log in (for styling cards)
+  // Initialize userFavorites variable to store user's favorites on log in (for styling cards)
   var userFavoriteIds = [];
+  // Initialize userTrash variable to store user's trash on log in (for populating results)
+  var userTrashIds = [];
+
 
 
   ////////////////////////////
@@ -168,6 +171,8 @@ $(document).ready(function() {
           populateCards(currentPage);
         }
       });
+
+      populateFavorites();
     }
 
     // If the clicked button is trash
@@ -368,21 +373,10 @@ $(document).ready(function() {
         image : imgURL
       }
 
-      // Check each key in hotelObject
-      // $.each(hotelObject, function(index, value) {
-      //   // Create webLink variable
-      //   var webLink = "";
-      //   // If value is undefined
-      //   if (value === undefined) {
-      //     // Save class to web-link-hidden
-      //     webLink = "web-link-hidden";
-      //   } else {
-      //     webLink = "web-link-visible";
-      //   }
-      // });
-
-      // Push hotel object to allHotels array (global)
-      allHotels.push(hotelObject);
+      // Push hotel object to allHotels array (global) if the id is not in the userTrashIds array
+      if (!userTrashIds.includes(hotelObject.id)) {
+        allHotels.push(hotelObject);
+      }
     }
 
     // Split all hotels array into arrays of 9 (or less for last array) and add to hotelPages object
@@ -431,6 +425,8 @@ $(document).ready(function() {
 
     // Reduce 1 from pageCount (because it will have incremented again) and save to totalPages
     totalPages = pageCount - 1;
+
+    console.log(allHotels);
 
     // Call populateCards and pass it "1" for first page
     populateCards("1");
@@ -501,7 +497,8 @@ $(document).ready(function() {
         // Make .draggable class draggable with jQuery UI function
         $(".draggable").draggable({
           revert: true,
-          revertDuration: 200
+          revertDuration: 200,
+          containment: false
         });
     }
 
@@ -621,6 +618,9 @@ $(document).ready(function() {
   function populateTrash() {
     // Empty Trash div
     $(".card-trash-body").empty();
+    // Empty userTrashIds array
+    userTrashIds = [];
+
     // Grab snapshot of root to work with
     db.ref().once("value").then(function(snapshot) {
       // If appropriate object tree exists and user has favorites
@@ -630,10 +630,13 @@ $(document).ready(function() {
       && userHasTrash(snapshot, currentUser)) {
         // Save location of Trash to a variable
         var userTrash = snapshot.child("Users").child(currentUser).child("Trash");
+
         // Loop through each hotel in user's Trash
         userTrash.forEach(function(hotel) {
           // Append a button to the trash div
           $(".card-trash-body").append(`<button class="btn btn-secondary">${hotel.val().name}</button>`);
+          // Push ID to userTrash array
+          userTrashIds.push(hotel.key);
         });
       } else {
         // Add text to Trash div that says this user does not have saved Trash

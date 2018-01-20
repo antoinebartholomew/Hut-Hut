@@ -47,6 +47,10 @@ font-size: 35px
   display: none;
 }
 
+.tab-pane {
+  padding-top: 20px;
+}
+
 
 /* MODAL */
 .modal,
@@ -84,9 +88,14 @@ font-size: 35px
 }
 
 /* RESULTS */
-.result-card {
+.results {
+  background: transparent;
+}
 
-  width: 100%;
+.result-card {
+  /* width: 100%; */
+  width: 30%;
+  max-width: 30%;
   display: inline-block;
   animation: slide-up 0.4s ease;
   transition:
@@ -113,12 +122,12 @@ font-size: 35px
 .result-card:hover {
   transform: scale(1.05, 1.05);
   box-shadow: 5px 5px 50px #8D9DB6;
-  z-index: 999;
+  z-index: 2;
 }
 
 .result-card.ui-draggable-dragging {
   transition: none;
-  z-index: 9999;
+  z-index: 999;
   border-radius: 50%;
 }
 

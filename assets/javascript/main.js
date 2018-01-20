@@ -632,7 +632,7 @@ $(document).ready(function() {
             userFavoriteIds.push(hotel.key)
             // Populate corresponding accordion body with a small image link and name
             $(`#${currentKey}-collapse-body`).append(`
-              <img class="hotel-favorites-image" src=${hotel.val().image}>
+              <a href="${hotel.val().website}" target="_blank" class="hotel-favorites-link"><img class="hotel-favorites-image" src=${hotel.val().image}></a>
               <h6>${hotel.val().name}<h6>
               <button class="btn btn-secondary btn-sm btn-unfavorite" hotel-id="${hotel.val().id}" place-id="${currentKey}">Unfavorite</button>`);
           });

@@ -369,13 +369,17 @@ $(document).ready(function() {
       }
 
       // Check each key in hotelObject
-      $.each(hotelObject, function(index, value) {
-        // If value is undefined
-        if (value === undefined) {
-          // Change value to "Not Available"
-          hotelObject[index] = "Not Available";
-        }
-      });
+      // $.each(hotelObject, function(index, value) {
+      //   // Create webLink variable
+      //   var webLink = "";
+      //   // If value is undefined
+      //   if (value === undefined) {
+      //     // Save class to web-link-hidden
+      //     webLink = "web-link-hidden";
+      //   } else {
+      //     webLink = "web-link-visible";
+      //   }
+      // });
 
       // Push hotel object to allHotels array (global)
       allHotels.push(hotelObject);
@@ -455,6 +459,29 @@ $(document).ready(function() {
         var favoriteStatus = "hidden";
       }
 
+      // If web links are undefined, hide them via custom class
+      var websiteDisplay = "";
+      if (thisHotel.website === undefined) {
+        websiteDisplay = "hide-me";
+      } else {
+        websiteDisplay = "show-me";
+      }
+
+      var twitterDisplay = "";
+      if (thisHotel.twitter === undefined) {
+        twitterDisplay = "hide-me";
+      } else {
+        twitterDisplay = "show-me";
+      }
+
+      // If rating is undefined, replace with "No Reviews"
+      var ratingDisplay = "";
+      if (thisHotel.rating === undefined) {
+        ratingDisplay = "No Reviews"
+      } else {
+        ratingDisplay = `<i class="fas fa-star"></i>&nbsp;${thisHotel.rating}`;
+      }
+
       // Populate a card to results div
       $(".results").append(`
         <div class="card result-card draggable">
@@ -463,9 +490,9 @@ $(document).ready(function() {
           <div class="card-body result-card-body">
             <h5 class="card-title result-card-title heavy">${thisHotel.name}</h5>
             <p class="card-text result-card-address">Address: ${thisHotel.address}, ${thisHotel.city}, ${thisHotel.state}, ${thisHotel.zip}</p>
-            <p class="card-text result-card-rating">Rating: <i class="fas fa-star"></i>&nbsp;${thisHotel.rating}</p>
-            <p class="card-text result-card-web"><a href="${thisHotel.website}" class="result-card-web-link" target="_blank">Website</a></p>
-            <p class="card-text result-card-web">Twitter: <a href="https://twitter.com/${thisHotel.twitter}" class="result-card-web-link" target="_blank">${thisHotel.twitter}</a></p>
+            <p class="card-text result-card-rating">Rating: ${ratingDisplay}</p>
+            <p class="card-text result-card-web ${websiteDisplay}"><a href="${thisHotel.website}" class="result-card-web-link" target="_blank">Website</a></p>
+            <p class="card-text result-card-web ${twitterDisplay}">Twitter: <a href="https://twitter.com/${thisHotel.twitter}" class="result-card-web-link" target="_blank">${thisHotel.twitter}</a></p>
             <button type="button" class="btn btn-primary btn-card btn-favorite" data-index=${i}><i class="far fa-heart"></i></i></button>
             <button type="button" class="btn btn-danger btn-card btn-trash" data-index=${i}><i class="fas fa-trash"></i></button>
           </div>

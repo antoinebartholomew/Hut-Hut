@@ -8,6 +8,13 @@ p {
   font-size: 14px;
 }
 
+#tagline {
+font-family: 'Italianno', cursive;
+text-align: center;
+color: black;
+font-size: 35px
+}
+
 .heavy {
   font-weight: 700;
 }

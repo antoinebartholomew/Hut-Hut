@@ -39,6 +39,12 @@ $(document).ready(function() {
   var userFavoriteIds = [];
   // Initialize userTrash variable to store user's trash on log in (for populating results)
   var userTrashIds = [];
+  // GLobal Variable for the Google API for the latitudes and longitudes
+  var markers = [];
+  // // GLobal Variable for the Google API index of hotel names and ratings
+  var infoWindowContent = [];
+  var mapLatLng;
+  var map;
 
 
 
@@ -358,6 +364,13 @@ $(document).ready(function() {
   // Create hotel objects
   function createHotelObjects(data) {
 
+    // Multiple Markers]
+    // index of latitude and longitudes of hotls
+    markers = [];
+    // Info Window Content
+    // Index of Ratings and of hotel locations
+    infoWindowContent = [];
+
     // Clear all hotels array
     allHotels = [];
 
@@ -369,6 +382,9 @@ $(document).ready(function() {
 
       // Grab Foursquare hotel object
       var hotel = hotelArray[i].venue;
+
+      // First hotel for google
+      mapLatLng = [hotelArray[0].venue.location.lat, hotelArray[0].venue.location.lng]
 
       // Create imgURL variable
       var imgURL = "";
@@ -406,6 +422,9 @@ $(document).ready(function() {
         allHotels.push(hotelObject);
       }
     }
+
+    // Run google maps api
+    initMap();
 
     // Split all hotels array into arrays of 9 (or less for last array) and add to hotelPages object
     // Empty hotelPages
@@ -505,6 +524,24 @@ $(document).ready(function() {
       } else {
         ratingDisplay = `<i class="fas fa-star"></i>&nbsp;${thisHotel.rating}`;
       }
+
+      //Google API objects
+      markersObject = {
+        name : thisHotel.name,
+        lat : thisHotel.lat,
+        long : thisHotel.lng
+      }
+
+      infoWindowContentObject = `
+       <div class="info_content">
+        <h3 class="name-map">${thisHotel.image}</h3>
+        <p class="card-text result-card-rating rating-map">Rating: ${ratingDisplay}</p>
+        </div>`
+
+      // Push to markers and infoWindowContentObject array
+      markers.push(markersObject);
+      infoWindowContent.push(infoWindowContentObject);
+
 
       // Populate a card to results div
       $(".results").append(`
@@ -735,6 +772,62 @@ $(document).ready(function() {
   //     }
   //   });
   // }
+
+  
+  // //   // Display a map on the page
+  //     map = new google.maps.Map($("#map"), mapOptions);
+  //     map.setTilt(45);
+  //     // $("#nav-tab-map").append(map);
+  //
+  //
+  //     var bounds = new google.maps.LatLngBounds();
+  //
+  // // // Display multiple markers on a map
+  // var infoWindow = new google.maps.InfoWindow(), marker, i;
+
+  // // Loop through our array of markers & place each one on the map
+  // for( i = 0; i < markers.length; i++ ) {
+  //     var position = new google.maps.LatLng(markers[i]);
+  //     bounds.extend(position);
+  //     marker = new google.maps.Marker({
+  //         position: position,
+  //         map: map,
+  //         title: markers[i][0]
+  //     });
+  //
+  // //     // Allow each marker to have an info window
+  //     google.maps.event.addListener(marker, 'click', (function(marker, i) {
+  //         return function() {
+  //             infoWindow.setContent(infoWindowContent[i][0]);
+  //             infoWindow.open(map, marker);
+  //         }
+  //     })(marker, i));
+  //
+  //     // Automatically center the map fitting all markers on the screen
+  //     map.fitBounds(bounds);
+  // }
+  //
+  // // // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
+  // var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
+  //     this.setZoom(14);
+  //     google.maps.event.removeListener(boundsListener);
+  // });
+  // }
+
+  function initMap(){
+      map = new google.maps.Map(document.getElementById('map'), {
+        // uluru = mapLatLng
+        zoom:4,
+        center: new google.maps.LatLng(2.8,-187.3),
+        mapTypeId: 'roadmap'
+      });
+  }
+
+
+  function activePlacesSearch(){
+    var input = $("#hut-input");
+    var autocomplete = new google.maps.places.Autocomplete(input);
+  }
 
   ////////////////////////////
   ////// FUNCTION CALLS //////

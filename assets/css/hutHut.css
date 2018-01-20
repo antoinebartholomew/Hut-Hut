@@ -78,8 +78,8 @@ p {
 
 /* RESULTS */
 .result-card {
-  max-width: 30%;
-  width: 30%;
+
+  width: 100%;
   display: inline-block;
   animation: slide-up 0.4s ease;
   transition:

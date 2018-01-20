@@ -179,6 +179,25 @@ font-size: 35px
   width: 18rem;
 }
 
+.accordion-place-btn,
+.accordion-place-btn:hover,
+.accordion-place-btn:visited,
+.accordion-place-btn:focus,
+.accordion-place-btn:active,
+.accordion-place-btn-trash,
+.accordion-place-btn-trash:hover,
+.accordion-place-btn-trash:visited,
+.accordion-place-btn-trash:focus,
+.accordion-place-btn-trash:active {
+  text-decoration: none;
+  color: inherit;
+}
+
+.hotel-favorites-link {
+  display: block;
+  margin-bottom: 5px;
+}
+
 /* MAP */
 #map {
   width: 100%;

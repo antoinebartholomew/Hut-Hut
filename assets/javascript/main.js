@@ -151,8 +151,6 @@ $(document).ready(function() {
           $(".modal-footer").html("<button type='button' class='btn btn-primary' data-dismiss='modal'>Okay</button>");
           // Show modal
           $(".modal").modal("show");
-          // Populate cards
-          populateCards(currentPage);
         } else {
           // Otherwise add the hotel object to user's favorites
           db.ref("Users/" + currentUser + "/Favorites/" + userPlace).child(clickedHotelId).set(clickedHotelObject);
@@ -184,6 +182,7 @@ $(document).ready(function() {
         && usersExist(snapshot)
         && userExists(snapshot, currentUser)
         && userHasTrash(snapshot, currentUser)
+        && placeInTrash(snapshot, currentUser, userPlace)
         && hotelInTrash(snapshot, currentUser, clickedHotelId)) {
           // Alert user that the hotel is already in their trash
           // Change modal
@@ -192,20 +191,20 @@ $(document).ready(function() {
           $(".modal-footer").html("<button type='button' class='btn btn-primary' data-dismiss='modal'>Okay</button>");
           // Show modal
           $(".modal").modal("show");
-          // Populate cards
-          populateCards(currentPage);
         } else {
-          // Otherwise add the hotel object to user's trash
-          db.ref("Users/" + currentUser + "/Trash").child(clickedHotelId).set(clickedHotelObject);
-          // Alert user that the hotel was added to their trash
+          // Otherwise add the hotel object to user's Trash
+          db.ref("Users/" + currentUser + "/Trash/" + userPlace).child(clickedHotelId).set(clickedHotelObject);
+          // Alert user that the hotel was added to Trash
           // Change modal
-          $(".modal-title").text("Successfully trashed")
-          $(".modal-body").html(`<p>${clickedHotelObject.name} was added to ${currentUser}'s trash.</p>`);
+          $(".modal-title").text("Successfully Added")
+          $(".modal-body").html(`<p>${clickedHotelObject.name} was added to ${currentUser}'s ${userPlace} Trash.</p>`);
           $(".modal-footer").html("<button type='button' class='btn btn-primary' data-dismiss='modal'>Okay</button>");
           // Show modal
           $(".modal").modal("show");
-          // Get updated snapshot of user's trash then call populateTrash
+          // Get updated snapshot of user's favorites then call populateFavorites
           db.ref("Users/" + currentUser + "/Trash/").once("value").then(populateTrash);
+          // Push to userTrashIds
+          userTrashIds.push(clickedHotelId);
           // Populate cards
           populateCards(currentPage);
         }
@@ -277,6 +276,32 @@ $(document).ready(function() {
     }
   });
 
+  // Undelete hotel button handler
+  $(document).on("click", ".btn-undelete", function() {
+    // Grab path values from button attributes
+    var thisPlace = $(this).attr("place-id");
+    var thisHotel = $(this).attr("hotel-id");
+
+    // Remove the hotel from Firebase trash
+    db.ref("Users/" + currentUser + "/Trash/" + thisPlace).child(thisHotel).remove();
+
+    // Call populateTrash
+    populateTrash();
+  });
+
+  // Unfavorite hotel button handler
+  $(document).on("click", ".btn-unfavorite", function() {
+    // Grab path values from button attributes
+    var thisPlace = $(this).attr("place-id");
+    var thisHotel = $(this).attr("hotel-id");
+
+    // Remove the hotel from Firebase trash
+    db.ref("Users/" + currentUser + "/Favorites/" + thisPlace).child(thisHotel).remove();
+
+    // Call populateTrash
+    populateFavorites();
+  });
+
 
   ///////////////////////
   ////// FUNCTIONS //////
@@ -300,11 +325,14 @@ $(document).ready(function() {
   // Check if a place exists in user's favorites when passed root object, user name, and place
   var placeInFavorites = (root, user, place) => root.child("Users").child(user).child("Favorites").val().hasOwnProperty(place);
 
+  // Check if a place exists in user's trash when passed root object, user name, and place
+  var placeInTrash = (root, user, place) => root.child("Users").child(user).child("Trash").val().hasOwnProperty(place);
+
   // Check if hotel exists in user's favorites within current place when passed root object, user name, place, and hotelId
   var hotelInFavorites = (root, user, place, hotel) => root.child("Users").child(user).child("Favorites").child(place).val().hasOwnProperty(hotel);
 
   // Check if hotel exists in user's trash when passed root object, user name, and hotelId
-  var hotelInTrash = (root, user, hotel) => root.child("Users").child(user).child("Trash").val().hasOwnProperty(hotel);
+  var hotelInTrash = (root, user, place, hotel) => root.child("Users").child(user).child("Trash").child(place).val().hasOwnProperty(hotel);
 
   // Log in function
   function logIn() {
@@ -605,25 +633,23 @@ $(document).ready(function() {
             // Populate corresponding accordion body with a small image link and name
             $(`#${currentKey}-collapse-body`).append(`
               <img class="hotel-favorites-image" src=${hotel.val().image}>
-              <h6>${hotel.val().name}<h6>`);
+              <h6>${hotel.val().name}<h6>
+              <button class="btn btn-secondary btn-sm btn-unfavorite" hotel-id="${hotel.val().id}" place-id="${currentKey}">Unfavorite</button>`);
           });
         });
       } else {
         // Add text to Favorites div that says this user does not have any saved Favorites
-        $(".card-favorites-body").html("<p>This user's Favorites is empty.</p>");
+        $(".card-favorites-body").html(`<p>${currentUser}'s Favorites is empty.</p>`);
       }
     });
   }
 
   function populateTrash() {
-    // Empty Trash div
+    // Empty trash div
     $(".card-trash-body").empty();
-    // Empty userTrashIds array
-    userTrashIds = [];
-
     // Grab snapshot of root to work with
     db.ref().once("value").then(function(snapshot) {
-      // If appropriate object tree exists and user has favorites
+      // If appropriate object tree exists and user has trash
       if (!isDatabaseEmpty(snapshot)
       && usersExist(snapshot)
       && userExists(snapshot, currentUser)
@@ -631,19 +657,84 @@ $(document).ready(function() {
         // Save location of Trash to a variable
         var userTrash = snapshot.child("Users").child(currentUser).child("Trash");
 
-        // Loop through each hotel in user's Trash
-        userTrash.forEach(function(hotel) {
-          // Append a button to the trash div
-          $(".card-trash-body").append(`<button class="btn btn-secondary">${hotel.val().name}</button>`);
-          // Push ID to userTrash array
-          userTrashIds.push(hotel.key);
+        // Clear userTrashIds
+        userTrashIds = [];
+
+        // Append an accordion div to card-trash-body
+        $(".card-trash-body").append("<div id='accordion-trash'></div>");
+
+        // Loop through each location in Trash
+        userTrash.forEach(function(trash) {
+          // Block to handle if key has spaces
+          var currentKey = "";
+          var currentKeyArray = trash.key.split(" ");
+          if (currentKeyArray.length > 1) {
+            currentKey = currentKeyArray.join("-");
+          } else {
+            currentKey = trash.key;
+          }
+          // Create a collapsible card for each location and append to accordion
+          $("#accordion-trash").append(`
+            <div class="card accordion-place-card" id="${currentKey}-accordion-card-trash">
+              <div class="card-header accordion-place-header" id="${currentKey}-accordion-place-header-trash">
+                <h5 class="mb-0 accordion-place-heading">
+                  <button class="btn btn-link collapsed accordion-place-btn" data-toggle="collapse" data-target="#${currentKey}-collapse-trash" aria-expanded="false" aria-controls="${currentKey}-collapse-trash">${trash.key}</button>
+                </h5>
+              </div>
+              <div id="${currentKey}-collapse-trash" class="collapse" aria-labelledby="${currentKey}-accordion-place-header-trash" data-parent="#accordion-trash">
+                <div class="card-body accordion-place-collapse-body text-center" id="${currentKey}-collapse-body-trash">
+                </div>
+              </div>
+            </div>`);
+
+
+          // Loop through each hotel in the trash
+          trash.forEach(function(hotel) {
+            // Add id to global userTrashIds (for styling cards)
+            userTrashIds.push(hotel.key)
+            // Populate corresponding accordion body with a small image link and name
+            $(`#${currentKey}-collapse-body-trash`).append(`
+              <img class="hotel-trash-image" src=${hotel.val().image}>
+              <h6>${hotel.val().name}<h6>
+              <button class="btn btn-secondary btn-sm btn-undelete" hotel-id="${hotel.val().id}" place-id="${currentKey}">Undelete</button>`);
+          });
         });
       } else {
-        // Add text to Trash div that says this user does not have saved Trash
-        $(".card-trash-body").html("<p>This user's Trash is empty.</p>");
+        // Add text to Trash div that says this user does not have any saved trash
+        $(".card-trash-body").html(`<p>${currentUser}'s Trash is empty.</p>`);
       }
     });
   }
+
+  // function populateTrash() {
+  //   // Empty Trash div
+  //   $(".card-trash-body").empty();
+  //   // Empty userTrashIds array
+  //   userTrashIds = [];
+  //
+  //   // Grab snapshot of root to work with
+  //   db.ref().once("value").then(function(snapshot) {
+  //     // If appropriate object tree exists and user has favorites
+  //     if (!isDatabaseEmpty(snapshot)
+  //     && usersExist(snapshot)
+  //     && userExists(snapshot, currentUser)
+  //     && userHasTrash(snapshot, currentUser)) {
+  //       // Save location of Trash to a variable
+  //       var userTrash = snapshot.child("Users").child(currentUser).child("Trash");
+  //
+  //       // Loop through each hotel in user's Trash
+  //       userTrash.forEach(function(hotel) {
+  //         // Append a button to the trash div
+  //         $(".card-trash-body").append(`<button class="btn btn-secondary">${hotel.val().name}</button>`);
+  //         // Push ID to userTrash array
+  //         userTrashIds.push(hotel.key);
+  //       });
+  //     } else {
+  //       // Add text to Trash div that says this user does not have saved Trash
+  //       $(".card-trash-body").html("<p>This user's Trash is empty.</p>");
+  //     }
+  //   });
+  // }
 
   ////////////////////////////
   ////// FUNCTION CALLS //////

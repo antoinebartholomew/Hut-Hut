@@ -314,6 +314,12 @@ $(document).ready(function() {
 
   });
 
+  // Log Out click handler
+  $(document).on("click", ".logout-btn", function() {
+    // Reload page
+    document.location.reload(true);
+  });
+
 
   ///////////////////////
   ////// FUNCTIONS //////

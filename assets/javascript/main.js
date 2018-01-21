@@ -382,6 +382,9 @@ $(document).ready(function() {
     // Clear all hotels array
     allHotels = [];
 
+    // First hotel for google
+    mapLatLng = [hotelArray[0].venue.location.lat, hotelArray[0].venue.location.lng]
+
     // Save response array to local array
     var hotelArray = data.response.groups[0].items;
 
@@ -822,20 +825,34 @@ $(document).ready(function() {
   // });
   // }
 
-  function initMap(){
-      map = new google.maps.Map(document.getElementById('map'), {
-        // uluru = mapLatLng
-        zoom:4,
-        center: new google.maps.LatLng(2.8,-187.3),
-        mapTypeId: 'roadmap'
+  function initMap(page) {
+    // Prevent Default
+    // event.preventDefault();
+    // var position = new google.maps.LatLng(mapLatLng[0], mapLatLng[1]);
+    // console.log (mapLatLng);
+        var center = new google.maps.LatLng(mapLatLng[0], mapLatLng[1]);
+        map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 8,
+        // center: {lat: -25.363, lng: 131.044}
+        center: center
       });
-  }
+      var marker = new google.maps.Marker({
+        // position: {lat: -25.363, lng: 131.044},
+      position: center,
+      map: map,
+      title: "Test Title"
+});
+}
 
-
-  function activePlacesSearch(){
-    var input = $("#hut-input");
-    var autocomplete = new google.maps.places.Autocomplete(input);
-  }
+// Autocomplete
+  // function Autocomplete () {
+  //   var searchLocation =  document.getElementById("hut-input");
+  //   var opts = {
+  //   types: ['(cities)']
+  // };
+  //
+  // var autocomplete = new google.maps.places.Autocomplete(searchLocation, opts);
+  // }
 
   ////////////////////////////
   ////// FUNCTION CALLS //////

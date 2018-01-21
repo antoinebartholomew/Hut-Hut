@@ -43,8 +43,6 @@ $(document).ready(function() {
   var markers = [];
   // // GLobal Variable for the Google API index of hotel names and ratings
   var infoWindowContent = [];
-  var mapLatLng;
-  var map;
 
 
 
@@ -372,18 +370,8 @@ $(document).ready(function() {
   // Create hotel objects
   function createHotelObjects(data) {
 
-    // Multiple Markers]
-    // index of latitude and longitudes of hotls
-    markers = [];
-    // Info Window Content
-    // Index of Ratings and of hotel locations
-    infoWindowContent = [];
-
     // Clear all hotels array
     allHotels = [];
-
-    // First hotel for google
-    mapLatLng = [hotelArray[0].venue.location.lat, hotelArray[0].venue.location.lng]
 
     // Save response array to local array
     var hotelArray = data.response.groups[0].items;
@@ -393,9 +381,6 @@ $(document).ready(function() {
 
       // Grab Foursquare hotel object
       var hotel = hotelArray[i].venue;
-
-      // First hotel for google
-      mapLatLng = [hotelArray[0].venue.location.lat, hotelArray[0].venue.location.lng]
 
       // Create imgURL variable
       var imgURL = "";
@@ -434,14 +419,11 @@ $(document).ready(function() {
       }
     }
 
-    // Run google maps api
-    initMap();
-
     // Split all hotels array into arrays of 9 (or less for last array) and add to hotelPages object
     // Empty hotelPages
     hotelPages = {};
     var pageCount = 1;
-    for (i = 0; i < allHotels.length; i+= 9) {
+    for (i = 0; i < allHotels.length; i += 9) {
       hotelPages[pageCount] = allHotels.slice(i, i+9);
       pageCount++;
     }
@@ -484,8 +466,6 @@ $(document).ready(function() {
     // Reduce 1 from pageCount (because it will have incremented again) and save to totalPages
     totalPages = pageCount - 1;
 
-    console.log(allHotels);
-
     // Call populateCards and pass it "1" for first page
     populateCards("1");
   }
@@ -499,6 +479,11 @@ $(document).ready(function() {
 
     // Set currentPage to page
     currentPage = parseInt(page);
+
+    // Empty global map arrays
+    markers = [];
+    infoWindowContent = [];
+
 
     // For each hotel in currentHotels, create a card
     for (i = 0; i < currentHotels.length; i++) {
@@ -540,12 +525,13 @@ $(document).ready(function() {
       markersObject = {
         name : thisHotel.name,
         lat : thisHotel.lat,
-        long : thisHotel.lng
+        long : thisHotel.long
       }
 
       infoWindowContentObject = `
        <div class="info_content">
-        <h3 class="name-map">${thisHotel.image}</h3>
+        <img class="google-map-image" src=${thisHotel.image}>
+        <h3 class="name-map">${thisHotel.name}</h3>
         <p class="card-text result-card-rating rating-map">Rating: ${ratingDisplay}</p>
         </div>`
 
@@ -591,6 +577,8 @@ $(document).ready(function() {
     } else {
       $(".page-link-next").parent().removeClass("disabled");
     }
+
+    initMap(page);
   }
 
   function errorHandler(error) {
@@ -754,94 +742,46 @@ $(document).ready(function() {
     });
   }
 
-  // function populateTrash() {
-  //   // Empty Trash div
-  //   $(".card-trash-body").empty();
-  //   // Empty userTrashIds array
-  //   userTrashIds = [];
-  //
-  //   // Grab snapshot of root to work with
-  //   db.ref().once("value").then(function(snapshot) {
-  //     // If appropriate object tree exists and user has favorites
-  //     if (!isDatabaseEmpty(snapshot)
-  //     && usersExist(snapshot)
-  //     && userExists(snapshot, currentUser)
-  //     && userHasTrash(snapshot, currentUser)) {
-  //       // Save location of Trash to a variable
-  //       var userTrash = snapshot.child("Users").child(currentUser).child("Trash");
-  //
-  //       // Loop through each hotel in user's Trash
-  //       userTrash.forEach(function(hotel) {
-  //         // Append a button to the trash div
-  //         $(".card-trash-body").append(`<button class="btn btn-secondary">${hotel.val().name}</button>`);
-  //         // Push ID to userTrash array
-  //         userTrashIds.push(hotel.key);
-  //       });
-  //     } else {
-  //       // Add text to Trash div that says this user does not have saved Trash
-  //       $(".card-trash-body").html("<p>This user's Trash is empty.</p>");
-  //     }
-  //   });
-  // }
-
-
-  // //   // Display a map on the page
-  //     map = new google.maps.Map($("#map"), mapOptions);
-  //     map.setTilt(45);
-  //     // $("#nav-tab-map").append(map);
-  //
-  //
-  //     var bounds = new google.maps.LatLngBounds();
-  //
-  // // // Display multiple markers on a map
-  // var infoWindow = new google.maps.InfoWindow(), marker, i;
-
-  // // Loop through our array of markers & place each one on the map
-  // for( i = 0; i < markers.length; i++ ) {
-  //     var position = new google.maps.LatLng(markers[i]);
-  //     bounds.extend(position);
-  //     marker = new google.maps.Marker({
-  //         position: position,
-  //         map: map,
-  //         title: markers[i][0]
-  //     });
-  //
-  // //     // Allow each marker to have an info window
-  //     google.maps.event.addListener(marker, 'click', (function(marker, i) {
-  //         return function() {
-  //             infoWindow.setContent(infoWindowContent[i][0]);
-  //             infoWindow.open(map, marker);
-  //         }
-  //     })(marker, i));
-  //
-  //     // Automatically center the map fitting all markers on the screen
-  //     map.fitBounds(bounds);
-  // }
-  //
-  // // // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
-  // var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
-  //     this.setZoom(14);
-  //     google.maps.event.removeListener(boundsListener);
-  // });
-  // }
-
   function initMap(page) {
-    // Prevent Default
-    // event.preventDefault();
-    // var position = new google.maps.LatLng(mapLatLng[0], mapLatLng[1]);
-    // console.log (mapLatLng);
-        var center = new google.maps.LatLng(mapLatLng[0], mapLatLng[1]);
-        map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 8,
-        // center: {lat: -25.363, lng: 131.044}
-        center: center
+
+    var map;
+    var bounds = new google.maps.LatLngBounds();
+    var mapOptions = {
+      mapTypeId : "roadmap"
+    };
+
+    map = new google.maps.Map(document.getElementById("map"), mapOptions);
+    map.setTilt(45);
+
+    var infoWindow = new google.maps.InfoWindow(), marker, i;
+
+    console.log(markers.length);
+
+    for (i = 0; i < markers.length; i++) {
+
+
+      var position = new google.maps.LatLng(markers[i]["lat"], markers[i]["long"]);
+      bounds.extend(position);
+      marker = new google.maps.Marker({
+        position : position,
+        map : map,
+        title : markers[i][0]
       });
-      var marker = new google.maps.Marker({
-        // position: {lat: -25.363, lng: 131.044},
-      position: center,
-      map: map,
-      title: "Test Title"
-});
+
+      google.maps.event.addListener(marker, "click", (function(marker, i) {
+        return function() {
+          infoWindow.setContent(infoWindowContent[i]);
+          infoWindow.open(map, marker);
+        }
+      }) (marker, i));
+    }
+
+    map.fitBounds(bounds);
+
+    var boundsListener = google.maps.event.addListener((map), "bounds_changed", function(event) {
+      this.setZoom(14);
+      google.maps.event.removeListener(boundsListener);
+    });
 }
 
 // Autocomplete

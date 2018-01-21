@@ -76,6 +76,18 @@ font-size: 35px
   font-weight: bold;
 }
 
+.logout-btn {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+.logout-btn:hover {
+  text-decoration: underline;
+  color: #FFFFFF;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 /* MAIN CONTAINER */
 .container-main {
   margin: 40px auto;

@@ -765,7 +765,7 @@ $(document).ready(function() {
       marker = new google.maps.Marker({
         position : position,
         map : map,
-        title : markers[i][0]
+        title : markers[i]["name"]
       });
 
       google.maps.event.addListener(marker, "click", (function(marker, i) {

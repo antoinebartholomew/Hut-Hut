@@ -39,7 +39,11 @@ $(document).ready(function() {
   var userFavoriteIds = [];
   // Initialize userTrash variable to store user's trash on log in (for populating results)
   var userTrashIds = [];
-
+  // GLobal Variable for the Google API for the latitudes and longitudes
+  var markers = [];
+  // // GLobal Variable for the Google API index of hotel names and ratings
+  var infoWindowContent = [];
+  var mapLatLng;
 
 
   ////////////////////////////
@@ -358,6 +362,13 @@ $(document).ready(function() {
   // Create hotel objects
   function createHotelObjects(data) {
 
+    // Multiple Markers]
+    // index of latitude and longitudes of hotls
+    markers = [];
+    // Info Window Content
+    // Index of Ratings and of hotel locations
+    infoWindowContent = [];
+
     // Clear all hotels array
     allHotels = [];
 
@@ -369,6 +380,9 @@ $(document).ready(function() {
 
       // Grab Foursquare hotel object
       var hotel = hotelArray[i].venue;
+
+      // First hotel for google
+      mapLatLng = [hotelArray[0].venue.location.lat, hotelArray[0].venue.location.lng]
 
       // Create imgURL variable
       var imgURL = "";
@@ -406,6 +420,9 @@ $(document).ready(function() {
         allHotels.push(hotelObject);
       }
     }
+
+    // Run google maps api
+    initMap();
 
     // Split all hotels array into arrays of 9 (or less for last array) and add to hotelPages object
     // Empty hotelPages
@@ -505,6 +522,24 @@ $(document).ready(function() {
       } else {
         ratingDisplay = `<i class="fas fa-star"></i>&nbsp;${thisHotel.rating}`;
       }
+
+      //Google API objects
+      markersObject = {
+        name : thisHotel.name,
+        lat : thisHotel.lat,
+        long : thisHotel.lng
+      }
+
+      infoWindowContentObject = `
+       <div class="info_content">
+        <h3 class="name-map">${thisHotel.image}</h3>
+        <p class="card-text result-card-rating rating-map">Rating: ${ratingDisplay}</p>
+        </div>`
+
+      // Push to markers and infoWindowContentObject array
+      markers.push(markersObject);
+      infoWindowContent.push(infoWindowContentObject);
+
 
       // Populate a card to results div
       $(".results").append(`
@@ -735,6 +770,109 @@ $(document).ready(function() {
   //     }
   //   });
   // }
+
+
+  // //   // Display a map on the page
+  //     map = new google.maps.Map($("#map"), mapOptions);
+  //     map.setTilt(45);
+  //     // $("#nav-tab-map").append(map);
+  //
+  //
+  //     var bounds = new google.maps.LatLngBounds();
+  //
+  // // // Display multiple markers on a map
+  // var infoWindow = new google.maps.InfoWindow(), marker, i;
+
+  // // Loop through our array of markers & place each one on the map
+  // for( i = 0; i < markers.length; i++ ) {
+  //     var position = new google.maps.LatLng(markers[i]);
+  //     bounds.extend(position);
+  //     marker = new google.maps.Marker({
+  //         position: position,
+  //         map: map,
+  //         title: markers[i][0]
+  //     });
+  //
+  // //     // Allow each marker to have an info window
+  //     google.maps.event.addListener(marker, 'click', (function(marker, i) {
+  //         return function() {
+  //             infoWindow.setContent(infoWindowContent[i][0]);
+  //             infoWindow.open(map, marker);
+  //         }
+  //     })(marker, i));
+  //
+  //     // Automatically center the map fitting all markers on the screen
+  //     map.fitBounds(bounds);
+  // }
+  //
+  // // // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
+  // var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
+  //     this.setZoom(14);
+  //     google.maps.event.removeListener(boundsListener);
+  // });
+  // }
+
+  // function initMap() {
+  //
+  //       var map;
+  //       var bounds = new google.maps.LatLngBounds();
+  //       var mapOptions = {
+  //           mapTypeId: 'roadmap'
+  //       };
+  //
+  //       // Display a map on the page
+  //       map = new google.maps.Map(document.getElementById("map"), mapOptions);
+  //       map.setTilt(45);
+  //
+  //       // Multiple Markers
+  //       var markers = [
+  //           ['London Eye, London', 51.503454,-0.119562],
+  //           ['Palace of Westminster, London', 51.499633,-0.124755]
+  //       ];
+  //
+  //       // Info Window Content
+  //       var infoWindowContent = [
+  //           ['<div class="info_content">' +
+  //           '<h3>London Eye</h3>' +
+  //           '<p>The London Eye is a giant Ferris wheel situated on the banks of the River Thames. The entire structure is 135 metres (443 ft) tall and the wheel has a diameter of 120 metres (394 ft).</p>' +        '</div>'],
+  //           ['<div class="info_content">' +
+  //           '<h3>Palace of Westminster</h3>' +
+  //           '<p>The Palace of Westminster is the meeting place of the House of Commons and the House of Lords, the two houses of the Parliament of the United Kingdom. Commonly known as the Houses of Parliament after its tenants.</p>' +
+  //           '</div>']
+  //       ];
+  //
+  //       // Display multiple markers on a map
+  //       var infoWindow = new google.maps.InfoWindow(), marker, i;
+  //
+  //       // Loop through our array of markers & place each one on the map
+  //       for( i = 0; i < markers.length; i++ ) {
+  //           var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+  //           bounds.extend(position);
+  //           marker = new google.maps.Marker({
+  //               position: position,
+  //               map: map,
+  //               title: markers[i][0]
+  //           });
+  //
+  //           // Allow each marker to have an info window
+  //           google.maps.event.addListener(marker, 'click', (function(marker, i) {
+  //               return function() {
+  //                   infoWindow.setContent(infoWindowContent[i][0]);
+  //                   infoWindow.open(map, marker);
+  //               }
+  //           })(marker, i));
+  //
+  //           // Automatically center the map fitting all markers on the screen
+  //           map.fitBounds(bounds);
+  //       }
+  //
+  //       // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
+  //       var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
+  //           this.setZoom(14);
+  //           google.maps.event.removeListener(boundsListener);
+  //       });
+  //
+  //   }
 
   ////////////////////////////
   ////// FUNCTION CALLS //////

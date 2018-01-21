@@ -200,8 +200,8 @@ font-size: 35px
 
 /* MAP */
 #map {
-  width: 100%;
-  height: 600px;
+ height: 400px;
+ width: 100%;
 }
 
 /* FOOTER */

@@ -308,6 +308,11 @@ $(document).ready(function() {
     populateFavorites();
   });
 
+  // Force Google Maps resize on tab shown (to prevent gray screen)
+  $(document).on("shown.bs.tab", "#nav-tab-map", function() {
+    google.maps.event.trigger(map, "resize");
+  });
+
 
   ///////////////////////
   ////// FUNCTIONS //////
@@ -773,7 +778,7 @@ $(document).ready(function() {
   //   });
   // }
 
-  
+
   // //   // Display a map on the page
   //     map = new google.maps.Map($("#map"), mapOptions);
   //     map.setTilt(45);

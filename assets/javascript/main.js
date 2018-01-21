@@ -310,7 +310,10 @@ $(document).ready(function() {
 
   // Force Google Maps resize on tab shown (to prevent gray screen)
   $(document).on("shown.bs.tab", "#nav-tab-map", function() {
-    google.maps.event.trigger(map, "resize");
+    setTimeout(function() {
+      google.maps.event.trigger(map, "resize");
+    }, 300);
+
   });
 
 

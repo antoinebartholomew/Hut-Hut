@@ -36,16 +36,23 @@
 
   <!-- Header -->
   <div class="container-fluid header dark-bg shadow">
-    <h1 class="header-main-heading text-center heavy">HUT HUT</h1>
-    <p class="header-main-tagline text-center" id="tagline">Simply Luxurious</p>
-    <p class="header-main-user text-center">Logged in as: <span class="header-user-name"></span>&nbsp;(<a class="logout-btn">Log Out</a>)</p>
-  </div>
+     <div class="container">
+       <div class="media">
+         <img src="assets/images/hut-logo.png" id="logo" alt="">
+         <div class="media-body">
+           <p id="tagline"> <br> <br> . . . Simply Luxurious</p>
+         </div>
+         <p class="header-main-user text-center">Logged in as: <span class="header-user-name"></span>&nbsp;(<a class="logout-btn">Log Out</a>)</p>
+       </div>
+   </div>
+ </div>
+
 
   <!-- Main Body Container -->
   <div class="container container-main">
 
     <!-- Search Jumbotron -->
-    <div class="jumbotron jumbotron-search dark-bg shadow">
+    <div class="jumbotron jumbotron-search dark-bg-2 shadow">
 
       <!-- Search Container -->
       <div class="container container-search">
@@ -126,7 +133,7 @@
         <div class="col-4">
           <!-- Favorites -->
           <div class="card sidebar-card card-favorites shadow droppable-favorites">
-            <div class="card-header dark-bg">
+            <div class="card-header dark-bg-2">
               <h5>Favorites</h5>
             </div>
             <div class="card-body card-favorites-body"></div>
@@ -135,7 +142,7 @@
 
           <!-- Trash -->
           <div class="card sidebar-card card-trash shadow droppable-trash">
-            <div class="card-header dark-bg">
+            <div class="card-header dark-bg-2">
               <h5>Trash</h5>
             </div>
             <div class="card-body card-trash-body"></div>

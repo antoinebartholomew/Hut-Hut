@@ -1,5 +1,10 @@
 /* GENERAL */
 html,
+
+/*body {
+  font-family: 'Raleway', sans-serif;
+}*/
+
 body {
   font-family: 'Raleway', sans-serif;
 }
@@ -10,10 +15,18 @@ p {
 
 #tagline {
 font-family: 'Italianno', cursive;
-text-align: center;
-color: black;
-font-size: 35px
+color: #ffffff;
+font-size: 30px;
 }
+
+#logo {
+  max-width: 150px;
+}
+
+#nav-tabContent{
+ background-color: white;
+}
+
 
 .heavy {
   font-weight: 700;
@@ -21,13 +34,20 @@ font-size: 35px
 
 /* COLOR COMBOS / SHADOWS */
 .dark-bg {
-  background-color: #667292;
-  color: #FFFFFF;
+  background-color: #06425C;
+  color: #6D929B;
+}
+
+.dark-bg-2 {
+  background-color: #51A39D;
+  color: #F2F2F2;
 }
 
 .light-bg {
-  background-color: #BCCAD6;
-  color: #212121;
+  /*background-color: #F5FAFA;
+  color: #6D929B;*/
+  background-image: url("../images/beach1.jpeg"), url("../images/beach2.jpeg"), url("../images/beach4.jpeg");
+  background-repeat: no-repeat, repeat;
 }
 
 .shadow {
@@ -35,7 +55,8 @@ font-size: 35px
 }
 
 .yellow-btn {
-  background-color: #FFCC35;
+  background-color: #B7695C;
+  color: #F2F2F2;
 }
 
 .warning-text {
@@ -72,18 +93,18 @@ font-size: 35px
 }
 
 .header-user-name {
-  color: #FFCC35;
+  color: #814374;
   font-weight: bold;
 }
 
 .logout-btn {
-  color: #FFFFFF;
+  color: #B7695C;
   text-decoration: none;
 }
 
 .logout-btn:hover {
   text-decoration: underline;
-  color: #FFFFFF;
+  color: #F2F2F2;
   font-weight: bold;
   cursor: pointer;
 }
@@ -163,7 +184,7 @@ font-size: 35px
 }
 
 .result-card.ui-draggable-dragging .result-card-image {
-  border: 6px solid #667292;
+  border: 6px solid #;
   border-radius: 50%;
 }
 
@@ -218,8 +239,8 @@ font-size: 35px
 
 /* FOOTER */
 .footer {
-  background-color: #475066;
-  color: #FFFFFF;
+  background-color: #CDBB79;
+  color: #06425C;
   padding: 30px;
 }
 

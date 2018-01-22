@@ -10,10 +10,18 @@ p {
 
 #tagline {
 font-family: 'Italianno', cursive;
-text-align: center;
-color: black;
-font-size: 35px
+color: #ffffff;
+font-size: 30px;
 }
+
+#logo {
+  max-width: 150px;
+}
+
+#nav-tabContent{
+ background-color: white;
+}
+
 
 .heavy {
   font-weight: 700;

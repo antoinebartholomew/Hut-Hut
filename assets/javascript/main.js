@@ -287,6 +287,14 @@ $(document).ready(function() {
     var thisPlace = $(this).attr("place-id");
     var thisHotel = $(this).attr("hotel-id");
 
+
+
+    // Fix thisPlace for places with spaces for Firebase
+    var thisPlaceArray = thisPlace.split("-");
+    if (thisPlaceArray.length > 1) {
+      thisPlace = thisPlaceArray.join(" ");
+    }
+
     // Remove the hotel from Firebase trash
     db.ref("Users/" + currentUser + "/Trash/" + thisPlace).child(thisHotel).remove();
 
@@ -299,6 +307,12 @@ $(document).ready(function() {
     // Grab path values from button attributes
     var thisPlace = $(this).attr("place-id");
     var thisHotel = $(this).attr("hotel-id");
+
+    // Fix thisPlace for places with spaces for Firebase
+    var thisPlaceArray = thisPlace.split("-");
+    if (thisPlaceArray.length > 1) {
+      thisPlace = thisPlaceArray.join(" ");
+    }
 
     // Remove the hotel from Firebase trash
     db.ref("Users/" + currentUser + "/Favorites/" + thisPlace).child(thisHotel).remove();

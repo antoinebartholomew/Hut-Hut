@@ -29,13 +29,13 @@ font-size: 30px;
 
 /* COLOR COMBOS / SHADOWS */
 .dark-bg {
-  background-color: #667292;
-  color: #FFFFFF;
+  background-color: #834C24;
+  color: #1F1209;
 }
 
 .light-bg {
-  background-color: #BCCAD6;
-  color: #212121;
+  background-color: #FFF8DC;
+  color: #1F1209;
 }
 
 .shadow {
@@ -43,7 +43,8 @@ font-size: 30px;
 }
 
 .yellow-btn {
-  background-color: #FFCC35;
+  background-color: #1F1209;
+  color: #FFF8DC;
 }
 
 .warning-text {
@@ -80,7 +81,7 @@ font-size: 30px;
 }
 
 .header-user-name {
-  color: #FFCC35;
+  color: #FFF8DC;
   font-weight: bold;
 }
 
@@ -91,7 +92,7 @@ font-size: 30px;
 
 .logout-btn:hover {
   text-decoration: underline;
-  color: #FFFFFF;
+  color: #1F1209;
   font-weight: bold;
   cursor: pointer;
 }
@@ -171,7 +172,7 @@ font-size: 30px;
 }
 
 .result-card.ui-draggable-dragging .result-card-image {
-  border: 6px solid #667292;
+  border: 6px solid #;
   border-radius: 50%;
 }
 
@@ -226,7 +227,7 @@ font-size: 30px;
 
 /* FOOTER */
 .footer {
-  background-color: #475066;
+  background-color: #1F1209;
   color: #FFFFFF;
   padding: 30px;
 }

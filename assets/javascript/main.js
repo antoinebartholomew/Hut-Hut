@@ -43,6 +43,7 @@ $(document).ready(function() {
   var markers = [];
   // // GLobal Variable for the Google API index of hotel names and ratings
   var infoWindowContent = [];
+  var map;
 
 
 
@@ -309,10 +310,19 @@ $(document).ready(function() {
   // Force Google Maps resize on tab shown (to prevent gray screen)
   $(document).on("shown.bs.tab", "#nav-tab-map", function() {
     setTimeout(function() {
-      google.maps.event.trigger(map, "resize");
+      // google.maps.event.trigger(map, "resize");
+      resetMap(map);
     }, 300);
 
   });
+
+  function resetMap(m) {
+    var mapZoom = m.getZoom();
+    var mapCenter = m.getCenter();
+    google.maps.event.trigger(m, "resize");
+    map.setZoom(mapZoom);
+    map.setCenter(mapCenter);
+  }
 
   // Log Out click handler
   $(document).on("click", ".logout-btn", function() {
@@ -750,7 +760,7 @@ $(document).ready(function() {
 
   function initMap(page) {
 
-    var map;
+    map = undefined;
     var bounds = new google.maps.LatLngBounds();
     var mapOptions = {
       mapTypeId : "roadmap"
@@ -760,8 +770,6 @@ $(document).ready(function() {
     map.setTilt(45);
 
     var infoWindow = new google.maps.InfoWindow(), marker, i;
-
-    console.log(markers.length);
 
     for (i = 0; i < markers.length; i++) {
 
@@ -785,7 +793,7 @@ $(document).ready(function() {
     map.fitBounds(bounds);
 
     var boundsListener = google.maps.event.addListener((map), "bounds_changed", function(event) {
-      this.setZoom(14);
+      this.setZoom(13);
       google.maps.event.removeListener(boundsListener);
     });
 }

@@ -41,7 +41,7 @@ $(document).ready(function() {
   var userTrashIds = [];
   // GLobal Variable for the Google API for the latitudes and longitudes
   var markers = [];
-  // // GLobal Variable for the Google API index of hotel names and ratings
+  // // Global Variable for the Google API index of hotel names and ratings
   var infoWindowContent = [];
   var map;
 
@@ -137,6 +137,13 @@ $(document).ready(function() {
     var clickedHotelObject = currentHotels[clickedIndex];
     // Save Foursquare ID for Firebase naming purposes
     var clickedHotelId = clickedHotelObject.id;
+
+    // Look through hotel object for undefined values and replace with null
+    $.each(clickedHotelObject, function(key, value) {
+      if (value === undefined) {
+        clickedHotelObject[key] = "N/A"
+      }
+    });
 
     // If the clicked button is favorite
     if ($(this).hasClass("btn-favorite")) {
@@ -332,14 +339,6 @@ $(document).ready(function() {
     }, 300);
 
   });
-
-  function resetMap(m) {
-    var mapZoom = m.getZoom();
-    var mapCenter = m.getCenter();
-    google.maps.event.trigger(m, "resize");
-    map.setZoom(mapZoom);
-    map.setCenter(mapCenter);
-  }
 
   // Log Out click handler
   $(document).on("click", ".logout-btn", function() {
@@ -812,9 +811,16 @@ $(document).ready(function() {
       this.setZoom(13);
       google.maps.event.removeListener(boundsListener);
     });
-}
+  }
 
-Autocomplete
+  function resetMap(m) {
+    var mapZoom = m.getZoom();
+    var mapCenter = m.getCenter();
+    google.maps.event.trigger(m, "resize");
+    map.setZoom(mapZoom);
+    map.setCenter(mapCenter);
+  }
+
   function Autocomplete() {
     var searchLocation =  document.getElementById("hut-input");
     var opts = {

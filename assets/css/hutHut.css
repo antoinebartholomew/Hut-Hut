@@ -7,6 +7,11 @@ html,
 
 body {
   font-family: 'Raleway', sans-serif;
+  background-image: url("../images/beach1.jpeg");
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 p {
@@ -37,6 +42,11 @@ font-size: 30px;
 .dark-bg-2 {
   background-color: #51A39D;
   color: #F2F2F2;
+}
+
+.light-bg {
+  /*background-color: #F5FAFA;
+  color: #6D929B;*/
 }
 
 .shadow {
@@ -139,6 +149,7 @@ font-size: 30px;
 }
 
 .result-card {
+  display: inline-block;
    /*max-width: 100%;*/
   width: 30%;
   max-width: 30%;
@@ -153,6 +164,10 @@ font-size: 30px;
   position: relative;
   border-radius: 0;
 }
+
+/* .jumbotron-search {
+  position: fixed;
+} */
 
 @keyframes slide-up {
   0% {
@@ -272,4 +287,31 @@ font-size: 30px;
 .team-member-name {
   margin-top: 10px;
   font-size: 22px;
+}
+@media only screen and (max-width: 767px) {
+  .result {
+    width: 100%;
+  }
+  .sidebar-card {
+  width: 100%;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+footer {
+width: 50%;
+}
+.team-member {
+  width: 50%;
+}
+.team-member img {
+width: 50%;
+}
+.sidebar-card {
+width: 100%;
+}
+.results-card {
+  width: 100%;
+  max-width: 100%;
+}
 }

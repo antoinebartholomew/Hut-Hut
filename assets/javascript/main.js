@@ -227,7 +227,7 @@ $(document).ready(function() {
           // Alert user that the hotel was added to Trash
           // Change modal
           $(".modal-title").text("Successfully Added")
-          $(".modal-body").html(`<p>${clickedHotelObject.name} was added to ${currentUser}'s ${userPlace} Trash.</p>`);
+          $(".modal-body").html(`<p>${clickedHotelObject.name} was added to ${currentUser}'s ${userPlace} Trash and will not appear in future results.</p>`);
           $(".modal-footer").html("<button type='button' class='btn yellow-btn' data-dismiss='modal'>Okay</button>");
           // Show modal
           $(".modal").modal("show");

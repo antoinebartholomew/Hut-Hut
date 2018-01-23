@@ -152,7 +152,9 @@ font-size: 30px;
 
 }
 
-/* RESULTS */
+.powered-by {
+  text-align: center;
+}
 
 .results {
   background: transparent;
@@ -160,10 +162,6 @@ font-size: 30px;
 
 .result-card {
   display: inline-block;
-   /*max-width: 100%;*/
-  width: 30%;
-  max-width: 30%;
-  /*display: inline-block;*/
   display: inline-flex;
   animation: slide-up 0.4s ease;
   transition:

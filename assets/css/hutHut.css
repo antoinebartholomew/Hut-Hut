@@ -39,13 +39,6 @@ font-size: 30px;
   color: #F2F2F2;
 }
 
-.light-bg {
-  /*background-color: #F5FAFA;
-  color: #6D929B;*/
-  background-image: url("../images/beach1.jpeg"), url("../images/beach2.jpeg"), url("../images/beach4.jpeg");
-  background-repeat: no-repeat, repeat;
-}
-
 .shadow {
   box-shadow: 2px 2px 10px #8D9DB6;
 }
@@ -77,6 +70,16 @@ font-size: 30px;
 .modal-body,
 .modal-footer {
   border-radius: 0px;
+}
+
+
+
+.modal-header{
+  background-color: #C6E4E7;
+}
+
+.modal-footer{
+  background-color: #C6E4E7;
 }
 
 /* HEADER */

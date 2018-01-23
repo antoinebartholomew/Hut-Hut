@@ -57,6 +57,7 @@ $(document).ready(function() {
     event.preventDefault();
     // Call logIn
     logIn();
+    Autocomplete();
   });
 
   // User search button click
@@ -813,15 +814,15 @@ $(document).ready(function() {
     });
 }
 
-// Autocomplete
-  // function Autocomplete () {
-  //   var searchLocation =  document.getElementById("hut-input");
-  //   var opts = {
-  //   types: ['(cities)']
-  // };
-  //
-  // var autocomplete = new google.maps.places.Autocomplete(searchLocation, opts);
-  // }
+Autocomplete
+  function Autocomplete() {
+    var searchLocation =  document.getElementById("hut-input");
+    var opts = {
+    types: ['(cities)']
+  };
+
+  var autocomplete = new google.maps.places.Autocomplete(searchLocation, opts);
+  }
 
   ////////////////////////////
   ////// FUNCTION CALLS //////

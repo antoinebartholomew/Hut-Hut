@@ -614,20 +614,28 @@ $(document).ready(function() {
   }
 
   function errorHandler(error) {
-    console.log(error.responseJSON.meta.errorType);
     // Save errorType to a variable
     var err = error.responseJSON.meta.errorType
 
+    // Change modal title and footer
+    $(".modal-title").text("ERROR");
+    $(".modal-footer").html("<button type='button' class='btn btn-primary' data-dismiss='modal'>Okay</button>");
+
     // Conditional error messages
     if (err === "quota_exceeded") {
-      alert("We're sorry, it appears this application's daily request limit has been reached. Please try again tomorrow.");
+      // Change modal body
+      $(".modal-body").html("<p>We're sorry, it appears this application's daily request limit has been reached. Please try again tomorrow.</p>");
     } else if (err === "rate_limit_exceeded") {
-      alert("We're sorry, it appears this application's hourly rate limit has been reached. Please try again in an later.");
+      $(".modal-body").html("<p>We're sorry, it appears this application's hourly rate limit has been reached. Please try again in an later.</p>");
     } else if (err === "endpoint_error") {
-      alert("We're sorry, it appears there is a problem with the application you are using. Please contact the application's creators.");
+      $(".modal-body").html("<p>We're sorry, it appears there is a problem with the application you are using. Please contact the application's creators.</p>");
     } else {
-      alert(`We're sorry, we received the error "${err}" from Foursquare. Please ensure your search term is a valid place and contact this application's creators if the problem persists.`);
+      $(".modal-body").html(`
+        <p>We're sorry, we received the error "${err}" from Foursquare. Please ensure your search term is a valid place and contact this application's creators if the problem persists.</p>`);
     }
+
+    // Show modal
+    $(".modal").modal("show");
   }
 
   function promptUserLogIn() {

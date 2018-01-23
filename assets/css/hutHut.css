@@ -28,7 +28,7 @@ font-size: 30px;
   color: #F2F2F2;
 }
 
-.btn-unfavorite {
+.btn-unfavorite, .btn-undelete {
   background-color: #B7695C;
     color: #F2F2F2;
     border-color: #B7695C;

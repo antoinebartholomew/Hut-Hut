@@ -1,6 +1,6 @@
 /* GENERAL */
-html,
 
+html,
 /*body {
   font-family: 'Raleway', sans-serif;
 }*/
@@ -19,9 +19,9 @@ p {
 }
 
 #tagline {
-font-family: 'Italianno', cursive;
-color: #ffffff;
-font-size: 30px;
+  font-family: 'Italianno', cursive;
+  color: #ffffff;
+  font-size: 30px;
 }
 
 #logo {
@@ -35,8 +35,8 @@ font-size: 30px;
 
 .btn-unfavorite, .btn-undelete {
   background-color: #B7695C;
-    color: #F2F2F2;
-    border-color: #B7695C;
+  color: #F2F2F2;
+  border-color: #B7695C;
 }
 
 .heavy {
@@ -44,6 +44,7 @@ font-size: 30px;
 }
 
 /* COLOR COMBOS / SHADOWS */
+
 .dark-bg {
   background-color: #06425C;
   color: #6D929B;
@@ -81,28 +82,22 @@ font-size: 30px;
   padding-top: 20px;
 }
 
-
 /* MODAL */
-.modal,
-.modal-dialog,
-.modal-content,
-.modal-header,
-.modal-body,
-.modal-footer {
+
+.modal, .modal-dialog, .modal-content, .modal-header, .modal-body, .modal-footer {
   border-radius: 0px;
 }
 
-
-
-.modal-header{
+.modal-header {
   background-color: #C6E4E7;
 }
 
-.modal-footer{
+.modal-footer {
   background-color: #C6E4E7;
 }
 
 /* HEADER */
+
 .header {
   padding: 20px 0;
 }
@@ -129,6 +124,7 @@ font-size: 30px;
 }
 
 /* MAIN CONTAINER */
+
 .container-main {
   margin: 40px auto;
 }
@@ -146,15 +142,14 @@ font-size: 30px;
 
 /* Tab Bar & Content */
 
-.tab-content{
- /*background-color: white;*/
- /*background-color: #53A49C;*/
- background-color: rgba(83, 164, 156, 0.4);
+.tab-content {
+  /*background-color: white;*/
+  /*background-color: #53A49C;*/
+  background-color: rgba(83, 164, 156, 0.1);
 }
 
-.nav-item{
+.nav-item {
   background-color: rgba(83, 164, 156, 0.4);
-
 }
 
 .powered-by {
@@ -163,31 +158,25 @@ font-size: 30px;
 
 .results {
   background: transparent;
+  text-align: center;
 }
 
 .result-card {
   display: inline-block;
-  display: inline-flex;
+  vertical-align: top;
+  width: 30%;
   animation: slide-up 0.4s ease;
-  transition:
-    transform 0.3s linear,
-    box-shadow 0.3s linear,
-    z-index 0.3s linear,
-    border-radius 0.3s linear;
+  transition: transform 0.3s linear, box-shadow 0.3s linear, z-index 0.3s linear, border-radius 0.3s linear;
   position: relative;
   border-radius: 0;
+  margin-top: 16px;
 }
-
-/* .jumbotron-search {
-  position: fixed;
-} */
 
 @keyframes slide-up {
   0% {
     opacity: 0;
     transform: translateY(20px);
   }
-
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -249,21 +238,13 @@ font-size: 30px;
 }
 
 /* FAVORITES / TRASH SIDEBAR */
+
 .sidebar-card {
   margin-top: 10px;
   width: 18rem;
 }
 
-.accordion-place-btn,
-.accordion-place-btn:hover,
-.accordion-place-btn:visited,
-.accordion-place-btn:focus,
-.accordion-place-btn:active,
-.accordion-place-btn-trash,
-.accordion-place-btn-trash:hover,
-.accordion-place-btn-trash:visited,
-.accordion-place-btn-trash:focus,
-.accordion-place-btn-trash:active {
+.accordion-place-btn, .accordion-place-btn:hover, .accordion-place-btn:visited, .accordion-place-btn:focus, .accordion-place-btn:active, .accordion-place-btn-trash, .accordion-place-btn-trash:hover, .accordion-place-btn-trash:visited, .accordion-place-btn-trash:focus, .accordion-place-btn-trash:active {
   text-decoration: none;
   color: inherit;
 }
@@ -274,12 +255,14 @@ font-size: 30px;
 }
 
 /* MAP */
+
 #map {
   width: 100%;
   height: 600px;
 }
 
 /* FOOTER */
+
 .footer {
   background-color: #CDBB79;
   color: #06425C;
@@ -301,30 +284,39 @@ font-size: 30px;
   margin-top: 10px;
   font-size: 22px;
 }
+
+/* MEDIA QUERIES */
+
+@media only screen and (max-width: 990px) {
+  .result-card {
+    width: 45%;
+  }
+}
+
 @media only screen and (max-width: 767px) {
   .result {
     width: 100%;
   }
   .sidebar-card {
-  width: 100%;
+    width: 100%;
   }
 }
 
 @media only screen and (max-width: 575px) {
-footer {
-width: 50%;
-}
-.team-member {
-  width: 50%;
-}
-.team-member img {
-width: 50%;
-}
-.sidebar-card {
-width: 100%;
-}
-.results-card {
-  width: 100%;
-  max-width: 100%;
-}
+  footer {
+    width: 50%;
+  }
+  .team-member {
+    width: 50%;
+  }
+  .team-member img {
+    width: 50%;
+  }
+  .sidebar-card {
+    width: 100%;
+  }
+  .result-card {
+    width: 100%;
+    max-width: 100%;
+  }
 }

@@ -130,6 +130,24 @@ $(document).ready(function() {
   $(document).on("click", ".btn-card", function() {
     // Save user place search to a variable
     var userPlace = $("#hut-input").val().trim();
+    // Split userPlace into array by commas (due to autocomplete)
+    var userPlaceArray = userPlace.split(",");
+
+    // Trim each value
+    $.each(userPlaceArray, function(index) {
+      userPlaceArray[index] = userPlaceArray[index].trim();
+    });
+
+    // Check for United States and remove it if it exists
+    if (userPlaceArray.includes("United States")) {
+      userPlaceArray.splice(userPlaceArray.indexOf("Unites States"), 1);
+    }
+
+    // Recombine with spaces
+    userPlace = userPlaceArray.join(" ");
+    console.log(userPlace);
+
+
     // Save the data-index value of the clicked button to a variable
     var clickedIndex = $(this).attr("data-index");
     // Save the corresponding object from the currentHotels array to a variable

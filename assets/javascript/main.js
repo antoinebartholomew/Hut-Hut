@@ -188,7 +188,7 @@ $(document).ready(function() {
         && userExists(snapshot, currentUser)
         && userHasTrash(snapshot, currentUser)
         && placeInTrash(snapshot, currentUser, userPlace)
-        && hotelInTrash(snapshot, currentUser, clickedHotelId)) {
+        && hotelInTrash(snapshot, currentUser, userPlace, clickedHotelId)) {
           // Alert user that the hotel is already in their trash
           // Change modal
           $(".modal-title").text("Already in Trash")
@@ -263,6 +263,7 @@ $(document).ready(function() {
 
   // Card dropped in favorites handler
   $(".droppable-favorites").droppable({
+    tolerance: "pointer",
     drop: function(event, ui) {
       var draggedCard = $(ui.draggable)[0];
       var draggedButton = $(draggedCard).find(".btn-favorite")[0];
@@ -273,6 +274,7 @@ $(document).ready(function() {
 
   // Card dropped in trash handler
   $(".droppable-trash").droppable({
+    tolerance: "pointer",
     drop: function(event, ui) {
       var draggedCard = $(ui.draggable)[0];
       var draggedButton = $(draggedCard).find(".btn-trash")[0];
@@ -589,8 +591,7 @@ $(document).ready(function() {
         // Make .draggable class draggable with jQuery UI function
         $(".draggable").draggable({
           revert: true,
-          revertDuration: 200,
-          containment: false
+          revertDuration: 200
         });
     }
 

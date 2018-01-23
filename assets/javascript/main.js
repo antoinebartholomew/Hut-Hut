@@ -572,7 +572,7 @@ $(document).ready(function() {
 
       // Populate a card to results div
       $(".results").append(`
-        <div class="card result-card draggable">
+        <div class="card result-card draggable col-sm-12 col-md-4">
           <div class="favorite-flag-${favoriteStatus}"><i class="fas fa-heart"></i></div>
           <img class="card-img-top result-card-image" src="${thisHotel.image}">
           <div class="card-body result-card-body">

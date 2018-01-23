@@ -597,7 +597,7 @@ $(document).ready(function() {
     }
 
     // If current page is 1, disable previous button
-    if (currentPage === 1) {3
+    if (currentPage === 1) {
       $(".page-link-previous").parent().addClass("disabled");
     } else {
       $(".page-link-previous").parent().removeClass("disabled");

@@ -57,7 +57,6 @@ $(document).ready(function() {
     event.preventDefault();
     // Call logIn
     logIn();
-    Autocomplete();
   });
 
   // User search button click
@@ -396,6 +395,8 @@ $(document).ready(function() {
       populateFavorites();
       // Populate Trash
       populateTrash();
+      // Call Autocomplete
+      Autocomplete();
     }
   }
 

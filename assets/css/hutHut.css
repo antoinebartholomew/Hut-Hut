@@ -107,7 +107,7 @@ p {
 }
 
 .header-user-name {
-  color: #814374;
+  color: #68D1C9;
   font-weight: bold;
 }
 
@@ -150,10 +150,6 @@ p {
 
 .nav-item {
   background-color: rgba(83, 164, 156, 0.4);
-}
-
-.powered-by {
-  text-align: center;
 }
 
 .results {

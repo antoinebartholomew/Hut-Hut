@@ -270,6 +270,12 @@ p {
   width: 80%;
   max-width: 80%;
   border: 2px solid #FFFFFF;
+  transition: all 0.3s linear;
+}
+
+.team-member-img:hover {
+  box-shadow: 0px 0px 40px #FFFFFF;
+  transform: scale(1.03, 1.03);
 }
 
 .team-member-name {

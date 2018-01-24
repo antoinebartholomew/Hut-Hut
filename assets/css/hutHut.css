@@ -148,6 +148,12 @@ p {
   background-color: #67ABCF;
 }
 
+/* PAGINATION */
+.active-page {
+  background-color: #51A39D;
+  color: #FFFFFF;
+}
+
 /* Tab Bar & Content */
 
 .tab-content {

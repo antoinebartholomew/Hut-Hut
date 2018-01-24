@@ -485,7 +485,7 @@ $(document).ready(function() {
     $(".search-pagination-section").empty();
     // Create pagination skeleton
     $(".search-pagination-section").append(`
-      <nav>
+      <nav class="pagination-nav">
         <ul class="pagination search-pagination">
         </ul>
       </nav>`);
@@ -536,6 +536,11 @@ $(document).ready(function() {
     // Empty global map arrays
     markers = [];
     infoWindowContent = [];
+
+    // Remove active page class from all pagination links
+    $(".page-link").removeClass("active-page");
+    // Add active page class to current page
+    $($($(".page-item")[currentPage]).find("a")[0]).addClass("active-page");
 
 
     // For each hotel in currentHotels, create a card

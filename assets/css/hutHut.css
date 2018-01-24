@@ -130,6 +130,14 @@ p {
 
 /* SEARCH BOX */
 
+.btn-group-cats {
+  width: 100%;
+}
+
+#hut-submit {
+  margin-top: 10px;
+}
+
 .cat-btn {
   margin-right: 3px;
 }
@@ -266,6 +274,7 @@ p {
   background-color: #CDBB79;
   color: #06425C;
   padding: 30px;
+  margin-top: 40px;
 }
 
 .row-team-members {
@@ -286,9 +295,46 @@ p {
 
 /* MEDIA QUERIES */
 
-@media only screen and (max-width: 990px) {
+@media only screen and (max-width: 991px) {
   .result-card {
     width: 45%;
+  }
+
+  .container-search-bar {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  #hut-submit {
+    margin: 10px auto;
+    display: block;
+  }
+
+  .btn-group-cats {
+    display: block;
+    width: 100%;
+  }
+
+  .cat-btn {
+    display: block;
+    width: 75%;
+  }
+
+  .btn-group.btn-group-cats > .btn:first-child {
+    border-radius: 6px 6px 0 0;
+    margin: 2px auto;
+  }
+
+  .btn-group.btn-group-cats > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+    border-top-right-radius: 6px;
+  }
+
+  .btn-group.btn-group-cats > .btn:last-child:not(:first-child) {
+    border-radius: 0 0 6px 6px;
+  }
+
+  .btn-group.btn-group-cats .btn + .btn {
+    margin: 2px auto;
   }
 }
 
@@ -302,9 +348,6 @@ p {
 }
 
 @media only screen and (max-width: 575px) {
-  footer {
-    width: 50%;
-  }
   .team-member {
     width: 50%;
   }

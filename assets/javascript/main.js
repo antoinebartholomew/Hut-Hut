@@ -592,7 +592,7 @@ $(document).ready(function() {
       markers.push(markersObject);
       infoWindowContent.push(infoWindowContentObject);
 
-      // Unhide Map and results tabs
+      // Unhide Map and resul
       $("#nav-tab").show();
 
       // Populate a card to results div
@@ -874,6 +874,9 @@ $(document).ready(function() {
 
   // Hide user name section in header
   $(".header-main-user").hide();
+
+  // Hide results tabs
+  $("#nav-tab").hide();
 
   // Call get user function to kick things off
   promptUserLogIn();

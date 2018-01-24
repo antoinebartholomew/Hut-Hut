@@ -55,6 +55,7 @@ $(document).ready(function() {
   $(document).on("click", ".btn-user-log-in", function() {
     // Prevent default
     event.preventDefault();
+
     // Call logIn
     logIn();
   });
@@ -101,15 +102,15 @@ $(document).ready(function() {
 
     // Construct search object
     var userUrlObj = {
-      clientId : "GCAZLY2LL451QYZAJHC10LXCRPDRNDGOVDXLOJAB51HYDBGT",
-      clientSecret : "XXS1NU0C10PGX0XGTGQZ44PBIFSARMO0MOSXATTEGBRJX1GC",
-      urlBase : "https://api.foursquare.com/v2/venues/explore?",
+      clientId: "GCAZLY2LL451QYZAJHC10LXCRPDRNDGOVDXLOJAB51HYDBGT",
+      clientSecret: "XXS1NU0C10PGX0XGTGQZ44PBIFSARMO0MOSXATTEGBRJX1GC",
+      urlBase: "https://api.foursquare.com/v2/venues/explore?",
       // near
-      userSearch : $("#hut-input").val().trim(),
+      userSearch: $("#hut-input").val().trim(),
       // categoryId
-      hotelCategory : categoryString,
+      hotelCategory: categoryString,
       // limit
-      limit : "50",
+      limit: "50",
     }
 
     // Construct query URL
@@ -117,13 +118,13 @@ $(document).ready(function() {
 
     // AJAX Request
     $.ajax({
-      url : queryUrl,
-      method : "GET"
-    })
-    // When done, call createHotelObjects function
-    .done(createHotelObjects)
-    // If request failed, call errorHandler function
-    .fail(errorHandler);
+        url: queryUrl,
+        method: "GET"
+      })
+      // When done, call createHotelObjects function
+      .done(createHotelObjects)
+      // If request failed, call errorHandler function
+      .fail(errorHandler);
   });
 
   // Favorite / Trash Button Click Handler
@@ -168,12 +169,12 @@ $(document).ready(function() {
       db.ref().once("value").then(function(snapshot) {
 
         // If appropriate object tree exists and clicked hotel is already in user's favorites
-        if (!isDatabaseEmpty(snapshot)
-        && usersExist(snapshot)
-        && userExists(snapshot, currentUser)
-        && userHasFavorites(snapshot,currentUser)
-        && placeInFavorites(snapshot, currentUser, userPlace)
-        && hotelInFavorites(snapshot, currentUser, userPlace, clickedHotelId)) {
+        if (!isDatabaseEmpty(snapshot) &&
+          usersExist(snapshot) &&
+          userExists(snapshot, currentUser) &&
+          userHasFavorites(snapshot, currentUser) &&
+          placeInFavorites(snapshot, currentUser, userPlace) &&
+          hotelInFavorites(snapshot, currentUser, userPlace, clickedHotelId)) {
           // Alert user that the hotel is already in favorites
           // Change modal
           $(".modal-title").text("Already in Favorites")
@@ -208,12 +209,12 @@ $(document).ready(function() {
       // Grab snapshot of root to work with
       db.ref().once("value").then(function(snapshot) {
         // If appropriate object tree exists and clicked hotel is already in trash
-        if (!isDatabaseEmpty(snapshot)
-        && usersExist(snapshot)
-        && userExists(snapshot, currentUser)
-        && userHasTrash(snapshot, currentUser)
-        && placeInTrash(snapshot, currentUser, userPlace)
-        && hotelInTrash(snapshot, currentUser, userPlace, clickedHotelId)) {
+        if (!isDatabaseEmpty(snapshot) &&
+          usersExist(snapshot) &&
+          userExists(snapshot, currentUser) &&
+          userHasTrash(snapshot, currentUser) &&
+          placeInTrash(snapshot, currentUser, userPlace) &&
+          hotelInTrash(snapshot, currentUser, userPlace, clickedHotelId)) {
           // Alert user that the hotel is already in their trash
           // Change modal
           $(".modal-title").text("Already in Trash")
@@ -252,7 +253,7 @@ $(document).ready(function() {
     if ($(this).hasClass("page-link-previous")) {
       var previousPage = currentPage - 1;
       populateCards(previousPage.toString());
-    // Check if it's the next button
+      // Check if it's the next button
     } else if ($(this).hasClass("page-link-next")) {
       var nextPage = currentPage + 1;
       populateCards(nextPage.toString());
@@ -397,6 +398,7 @@ $(document).ready(function() {
 
   // Log in function
   function logIn() {
+
     // Save user name to global variable
     currentUser = $("#user-name").val().trim();
     // If blank, add a message to modal that tells the user they have to enter something
@@ -449,19 +451,19 @@ $(document).ready(function() {
 
       // Create hotel object with parameters we're interested in
       var hotelObject = {
-        id : hotel.id,
-        name : hotel.name,
-        phone : hotel.contact.phone,
-        twitter : hotel.contact.twitter,
-        address : hotel.location.address,
-        city : hotel.location.city,
-        state : hotel.location.state,
-        zip : hotel.location.postalCode,
-        lat : hotel.location.lat,
-        long : hotel.location.lng,
-        rating : hotel.rating,
-        website : hotel.url,
-        image : imgURL
+        id: hotel.id,
+        name: hotel.name,
+        phone: hotel.contact.phone,
+        twitter: hotel.contact.twitter,
+        address: hotel.location.address,
+        city: hotel.location.city,
+        state: hotel.location.state,
+        zip: hotel.location.postalCode,
+        lat: hotel.location.lat,
+        long: hotel.location.lng,
+        rating: hotel.rating,
+        website: hotel.url,
+        image: imgURL
       }
 
       // Push hotel object to allHotels array (global) if the id is not in the userTrashIds array
@@ -475,7 +477,7 @@ $(document).ready(function() {
     hotelPages = {};
     var pageCount = 1;
     for (i = 0; i < allHotels.length; i += 9) {
-      hotelPages[pageCount] = allHotels.slice(i, i+9);
+      hotelPages[pageCount] = allHotels.slice(i, i + 9);
       pageCount++;
     }
 
@@ -574,9 +576,9 @@ $(document).ready(function() {
 
       //Google API objects
       markersObject = {
-        name : thisHotel.name,
-        lat : thisHotel.lat,
-        long : thisHotel.long
+        name: thisHotel.name,
+        lat: thisHotel.lat,
+        long: thisHotel.long
       }
 
       infoWindowContentObject = `
@@ -590,7 +592,7 @@ $(document).ready(function() {
       markers.push(markersObject);
       infoWindowContent.push(infoWindowContentObject);
 
-      // Show results tabs
+      // Unhide Map and resul
       $("#nav-tab").show();
 
       // Populate a card to results div
@@ -609,11 +611,11 @@ $(document).ready(function() {
           </div>
         </div>`);
 
-        // Make .draggable class draggable with jQuery UI function
-        $(".draggable").draggable({
-          revert: true,
-          revertDuration: 200
-        });
+      // Make .draggable class draggable with jQuery UI function
+      $(".draggable").draggable({
+        revert: true,
+        revertDuration: 200
+      });
     }
 
     // If current page is 1, disable previous button
@@ -659,6 +661,9 @@ $(document).ready(function() {
   }
 
   function promptUserLogIn() {
+    // hide the Results and Map tabs
+    $("#nav-tab").hide();
+
     // Change modal
     $(".modal-title").text("Welcome")
     $(".modal-body").html(`
@@ -673,7 +678,10 @@ $(document).ready(function() {
       `);
     $(".modal-footer").html("<button type='button' class='btn yellow-btn btn-user-log-in'>Log In</button>");
     // Disallow user from clicking outside modal to close
-    $(".modal").modal({backdrop: "static", keyboard: false});
+    $(".modal").modal({
+      backdrop: "static",
+      keyboard: false
+    });
     // Show modal
     $(".modal").modal("show");
   }
@@ -684,10 +692,10 @@ $(document).ready(function() {
     // Grab snapshot of root to work with
     db.ref().once("value").then(function(snapshot) {
       // If appropriate object tree exists and user has favorites
-      if (!isDatabaseEmpty(snapshot)
-      && usersExist(snapshot)
-      && userExists(snapshot, currentUser)
-      && userHasFavorites(snapshot, currentUser)) {
+      if (!isDatabaseEmpty(snapshot) &&
+        usersExist(snapshot) &&
+        userExists(snapshot, currentUser) &&
+        userHasFavorites(snapshot, currentUser)) {
         // Save location of Favorites to a variable
         var userFavorites = snapshot.child("Users").child(currentUser).child("Favorites");
 
@@ -746,10 +754,10 @@ $(document).ready(function() {
     // Grab snapshot of root to work with
     db.ref().once("value").then(function(snapshot) {
       // If appropriate object tree exists and user has trash
-      if (!isDatabaseEmpty(snapshot)
-      && usersExist(snapshot)
-      && userExists(snapshot, currentUser)
-      && userHasTrash(snapshot, currentUser)) {
+      if (!isDatabaseEmpty(snapshot) &&
+        usersExist(snapshot) &&
+        userExists(snapshot, currentUser) &&
+        userHasTrash(snapshot, currentUser)) {
         // Save location of Trash to a variable
         var userTrash = snapshot.child("Users").child(currentUser).child("Trash");
 
@@ -807,13 +815,14 @@ $(document).ready(function() {
     map = undefined;
     var bounds = new google.maps.LatLngBounds();
     var mapOptions = {
-      mapTypeId : "roadmap"
+      mapTypeId: "roadmap"
     };
 
     map = new google.maps.Map(document.getElementById("map"), mapOptions);
     map.setTilt(45);
 
-    var infoWindow = new google.maps.InfoWindow(), marker, i;
+    var infoWindow = new google.maps.InfoWindow(),
+      marker, i;
 
     for (i = 0; i < markers.length; i++) {
 
@@ -821,9 +830,9 @@ $(document).ready(function() {
       var position = new google.maps.LatLng(markers[i]["lat"], markers[i]["long"]);
       bounds.extend(position);
       marker = new google.maps.Marker({
-        position : position,
-        map : map,
-        title : markers[i]["name"]
+        position: position,
+        map: map,
+        title: markers[i]["name"]
       });
 
       google.maps.event.addListener(marker, "click", (function(marker, i) {
@@ -831,7 +840,7 @@ $(document).ready(function() {
           infoWindow.setContent(infoWindowContent[i]);
           infoWindow.open(map, marker);
         }
-      }) (marker, i));
+      })(marker, i));
     }
 
     map.fitBounds(bounds);
@@ -851,12 +860,12 @@ $(document).ready(function() {
   }
 
   function Autocomplete() {
-    var searchLocation =  document.getElementById("hut-input");
+    var searchLocation = document.getElementById("hut-input");
     var opts = {
-    types: ['(cities)']
-  };
+      types: ['(cities)']
+    };
 
-  var autocomplete = new google.maps.places.Autocomplete(searchLocation, opts);
+    var autocomplete = new google.maps.places.Autocomplete(searchLocation, opts);
   }
 
   ////////////////////////////

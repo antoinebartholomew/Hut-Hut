@@ -12,9 +12,20 @@ Hut Hut is a hotel wish list application utilizing the Foursquare API for people
 
 ## Architecture
 
-![alt text](https://github.com/awyand/Hut-Hut/blob/master/assets/images/Layer%201.png)
-![alt text](https://github.com/awyand/Hut-Hut/blob/master/assets/images/Layer%202.png)
-![alt text](https://github.com/awyand/Hut-Hut/blob/master/assets/images/Layer%203.png)
+# Login Screen
+![alt text](https://github.com/awyand/Hut-Hut/blob/master/assets/images/Login.png)
+
+# Searchbar
+![alt text](https://github.com/awyand/Hut-Hut/blob/master/assets/images/Searchbar.png)
+
+# Search Results
+![alt text](https://github.com/awyand/Hut-Hut/blob/master/assets/images/Results.png)
+
+# Google Map Display
+![alt text](https://github.com/awyand/Hut-Hut/blob/master/assets/images/map.png)
+
+# Design Layout
+![alt text](https://github.com/awyand/Hut-Hut/blob/master/assets/images/Hut_Hut_Presentation.jpg)
 
 ## APIs to be Used
  - Foursquare Places
@@ -22,13 +33,13 @@ Hut Hut is a hotel wish list application utilizing the Foursquare API for people
 
 ## Team Members
   - Aaron Wyand
-    <img src="https://github.com/awyand/Hut-Hut/blob/master/images/aaron.png" height="200px">
+    <img src="https://github.com/awyand/Hut-Hut/blob/master/assets/images/aaron.png" height="200px">
   - Nathan Alston
-    <img src="https://github.com/awyand/Hut-Hut/blob/master/images/nathan.png" height="200px">
+    <img src="https://github.com/awyand/Hut-Hut/blob/master/assets/images/nathan.png" height="200px">
   - Tiara Welch
-    <img src="https://github.com/awyand/Hut-Hut/blob/master/images/tiara.png" height="200px">
+    <img src="https://github.com/awyand/Hut-Hut/blob/master/assets/images/tiara.png" height="200px">
   - Andrew Mugendi
-    <img src="https://github.com/awyand/Hut-Hut/blob/master/images/andrew.png" height="200px">
+    <img src="https://github.com/awyand/Hut-Hut/blob/master/assets/images/andrew.png" height="200px">
 
 ## Rough Breakdown of Tasks
  - MVP: take user input (city) and return a list of 10 hotels in that city

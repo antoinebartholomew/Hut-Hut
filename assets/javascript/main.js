@@ -179,7 +179,7 @@ $(document).ready(function() {
           // Change modal
           $(".modal-title").text("Already in Favorites")
           $(".modal-body").html(`<p>${clickedHotelObject.name} is already in ${currentUser}'s ${userPlace} favorites.</p>`);
-          $(".modal-footer").html("<button type='button' class='btn yellow-btn' data-dismiss='modal'>Okay</button>");
+          $(".modal-footer").html("<button type='button' class='btn btn-secondary yellow-btn' data-dismiss='modal'>Okay</button>");
           // Show modal
           $(".modal").modal("show");
         } else {
@@ -189,7 +189,7 @@ $(document).ready(function() {
           // Change modal
           $(".modal-title").text("Successfully Added")
           $(".modal-body").html(`<p>${clickedHotelObject.name} was added to ${currentUser}'s ${userPlace} favorites.</p>`);
-          $(".modal-footer").html("<button type='button' class='btn yellow-btn' data-dismiss='modal'>Okay</button>");
+          $(".modal-footer").html("<button type='button' class='btn btn-secondary yellow-btn' data-dismiss='modal'>Okay</button>");
           // Show modal
           $(".modal").modal("show");
           // Get updated snapshot of user's favorites then call populateFavorites
@@ -219,7 +219,7 @@ $(document).ready(function() {
           // Change modal
           $(".modal-title").text("Already in Trash")
           $(".modal-body").html(`<p>${clickedHotelObject.name} is already in ${currentUser}'s trash.</p>`);
-          $(".modal-footer").html("<button type='button' class='btn yellow-btn' data-dismiss='modal'>Okay</button>");
+          $(".modal-footer").html("<button type='button' class='btn btn-secondary yellow-btn' data-dismiss='modal'>Okay</button>");
           // Show modal
           $(".modal").modal("show");
         } else {
@@ -229,7 +229,7 @@ $(document).ready(function() {
           // Change modal
           $(".modal-title").text("Successfully Added")
           $(".modal-body").html(`<p>${clickedHotelObject.name} was added to ${currentUser}'s ${userPlace} Trash and will not appear in future results.</p>`);
-          $(".modal-footer").html("<button type='button' class='btn yellow-btn' data-dismiss='modal'>Okay</button>");
+          $(".modal-footer").html("<button type='button' class='btn btn-secondary yellow-btn' data-dismiss='modal'>Okay</button>");
           // Show modal
           $(".modal").modal("show");
           // Get updated snapshot of user's favorites then call populateFavorites
@@ -647,7 +647,7 @@ $(document).ready(function() {
 
     // Change modal title and footer
     $(".modal-title").text("ERROR");
-    $(".modal-footer").html("<button type='button' class='btn yellow-btn' data-dismiss='modal'>Okay</button>");
+    $(".modal-footer").html("<button type='button' class='btn btn-secondary yellow-btn' data-dismiss='modal'>Okay</button>");
 
     // Conditional error messages
     if (err === "quota_exceeded") {
@@ -682,7 +682,7 @@ $(document).ready(function() {
         </div>
       </form>
       `);
-    $(".modal-footer").html("<button type='button' class='btn yellow-btn btn-user-log-in'>Log In</button>");
+    $(".modal-footer").html("<button type='button' class='btn btn-secondary yellow-btn btn-user-log-in'>Log In</button>");
     // Disallow user from clicking outside modal to close
     $(".modal").modal({
       backdrop: "static",

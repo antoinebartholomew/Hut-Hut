@@ -15,6 +15,7 @@ Hut Hut is a hotel wish list application utilizing the Foursquare API for people
 ![alt text](https://github.com/awyand/Hut-Hut/blob/master/assets/images/Layer%201.png)
 ![alt text](https://github.com/awyand/Hut-Hut/blob/master/assets/images/Layer%202.png)
 ![alt text](https://github.com/awyand/Hut-Hut/blob/master/assets/images/Layer%203.png)
+![alt text](https://github.com/awyand/Hut-Hut/blob/master/assets/images/Hut_Hut_Presentation.jpg)
 
 ## APIs to be Used
  - Foursquare Places

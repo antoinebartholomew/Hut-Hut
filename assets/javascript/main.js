@@ -590,6 +590,8 @@ $(document).ready(function() {
       markers.push(markersObject);
       infoWindowContent.push(infoWindowContentObject);
 
+      // Show results tabs
+      $("#nav-tab").show();
 
       // Populate a card to results div
       $(".results").append(`
@@ -863,6 +865,9 @@ $(document).ready(function() {
 
   // Hide user name section in header
   $(".header-main-user").hide();
+
+  // Hide results tabs
+  $("#nav-tab").hide();
 
   // Call get user function to kick things off
   promptUserLogIn();

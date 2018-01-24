@@ -1,10 +1,6 @@
 /* GENERAL */
 
 html,
-/*body {
-  font-family: 'Raleway', sans-serif;
-}*/
-
 body {
   font-family: 'Raleway', sans-serif;
   background-image: url("../images/beach1.jpeg");
@@ -16,27 +12,6 @@ body {
 
 p {
   font-size: 14px;
-}
-
-#tagline {
-  font-family: 'Italianno', cursive;
-  color: #ffffff;
-  font-size: 30px;
-}
-
-#logo {
-  max-width: 150px;
-}
-
-.accordion-place-header {
-  background-color: #51A39D;
-  color: #F2F2F2;
-}
-
-.btn-unfavorite, .btn-undelete {
-  background-color: #B7695C;
-  color: #F2F2F2;
-  border-color: #B7695C;
 }
 
 .heavy {
@@ -83,22 +58,24 @@ p {
   border-radius: 0px;
 }
 
-.modal-header {
-  background-color: #C6E4E7;
-}
-
+.modal-header,
 .modal-footer {
   background-color: #C6E4E7;
 }
 
 /* HEADER */
-
 .header {
   padding: 20px 0;
 }
 
-.header-main-heading {
-  font-size: 60px;
+#logo {
+  max-width: 150px;
+}
+
+#tagline {
+  font-family: 'Italianno', cursive;
+  color: #ffffff;
+  font-size: 30px;
 }
 
 .header-user-name {
@@ -113,39 +90,31 @@ p {
 
 .logout-btn:hover {
   text-decoration: underline;
-  color: #F2F2F2;
+  color: #FFFFFF;
   font-weight: bold;
   cursor: pointer;
 }
 
-/* MAIN CONTAINER */
+/* MAIN (SEARCH) CONTAINER */
 
 .container-main {
   margin: 40px auto;
 }
 
-.conatiner-search-bar {
-  position: static;
-}
-
-/* SEARCH BOX */
-
 .btn-group-cats {
   width: 100%;
-}
-
-#hut-submit {
-  margin-top: 10px;
 }
 
 .cat-btn {
   margin-right: 3px;
 }
 
-/* Active SEARCH BOX Category Buttons */
-
 .btn-light:not(:disabled):not(.disabled).active, .btn-light:not(:disabled):not(.disabled):active, .show>.btn-light.dropdown-toggle {
   background-color: #67ABCF;
+}
+
+#hut-submit {
+  margin-top: 10px;
 }
 
 /* PAGINATION */
@@ -154,24 +123,22 @@ p {
   color: #FFFFFF;
 }
 
-/* Tab Bar & Content */
+/* CONTENT TABS */
 
 .tab-content {
   background-color: rgba(83, 164, 156, 0.1);
 }
 
 .nav-item {
-  background-color: rgba(83, 164, 156, 0.4);
+  background-color: rgba(83, 164, 156, 0.1);
+  color: #FFFFFF;
 }
+
+/* RESULT CARDS */
 
 .results {
   background: transparent;
   text-align: center;
-}
-
-.sidebar-columns {
-  position: -webkit-sticky;
-  position: sticky;
 }
 
 .result-card {
@@ -250,11 +217,22 @@ p {
   font-size: 30px;
 }
 
-/* FAVORITES / TRASH SIDEBAR */
+/* SIDE BAR (FAVORITES/TRASH) */
 
 .sidebar-card {
   margin-top: 10px;
   width: 18rem;
+}
+
+.accordion-place-header {
+  background-color: #51A39D;
+  color: #F2F2F2;
+}
+
+.btn-unfavorite, .btn-undelete {
+  background-color: #B7695C;
+  color: #F2F2F2;
+  border-color: #B7695C;
 }
 
 .accordion-place-btn, .accordion-place-btn:hover, .accordion-place-btn:visited, .accordion-place-btn:focus, .accordion-place-btn:active, .accordion-place-btn-trash, .accordion-place-btn-trash:hover, .accordion-place-btn-trash:visited, .accordion-place-btn-trash:focus, .accordion-place-btn-trash:active {
@@ -297,6 +275,16 @@ p {
 .team-member-name {
   margin-top: 10px;
   font-size: 22px;
+}
+
+.powered-by > a {
+  color: #06425C;
+  text-decoration: underline;
+}
+
+.powered-by > a:hover {
+  color: #FFFFFF;
+  text-decoration: underline;
 }
 
 /* MEDIA QUERIES */
